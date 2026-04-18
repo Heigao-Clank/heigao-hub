@@ -324,7 +324,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 关于页双列网格布局 */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -388,7 +387,6 @@ body {
   margin-bottom: 0;
 }
 
-/* 被遗漏的返回按钮样式补全 */
 .back-btn {
   display: inline-block;
   margin-top: 2.5rem;
@@ -479,7 +477,6 @@ body {
   gap: 0.8rem;
 }
 
-/* 未创建注脚 Badge 样式 */
 .badge {
   font-size: 0.7rem;
   background: rgba(107, 138, 174, 0.2);
@@ -566,6 +563,7 @@ body {
   .bg-deco-text { padding-right: 25vw; }
   .topbar-right { gap: 1rem; }
   .lang-switcher { gap: 0.5rem; }
+  
   .about-grid {
     grid-template-columns: 1fr;
     gap: 1rem; 
