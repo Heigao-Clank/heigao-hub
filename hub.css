@@ -33,7 +33,7 @@ body {
   display: flex;
 }
 
-/* ---------- 动态背景 (保留原有精髓) ---------- */
+/* ---------- 动态背景 ---------- */
 .bg-deco {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -121,20 +121,92 @@ body {
   background: var(--primary);
 }
 
+/* ========================================
+   Language Switcher & Status UI
+   ======================================== */
 .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.lang-btn:hover {
+  color: var(--primary);
+}
+
+.lang-btn.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.lang-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.2s ease;
+}
+
+.lang-btn.active::after {
+  width: 100%;
+}
+
+/* 带有呼吸灯的状态指示器 */
+.sys-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: 'Source Code Pro', monospace;
   font-size: 0.85rem;
   color: var(--text-muted);
 }
 
+.status-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(107, 138, 174, 0.5);
+  animation: pulse 4s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 /* ---------- 自适应侧栏 ---------- */
 .sidebar {
   width: var(--sidebar-width);
-  height: calc(100vh - 60px); /* 减去顶栏高度 */
+  height: calc(100vh - 60px);
   position: fixed;
-  top: 60px; /* 在顶栏下方 */
+  top: 60px;
   left: 0;
-  background: rgba(203, 211, 220, 0.6); /* 稍微透明一点 */
+  background: rgba(203, 211, 220, 0.6);
   backdrop-filter: blur(8px);
   border-right: 1px solid var(--border);
   z-index: 90;
@@ -171,13 +243,13 @@ body {
 .sidebar-toggle {
   display: none;
   position: fixed;
-  top: 10px; /* 在顶栏中间 */
+  top: 10px;
   left: 1rem;
   width: 40px;
   height: 40px;
   background: transparent;
   border: 1px solid var(--border);
-  z-index: 101; /* 比顶栏高 */
+  z-index: 101;
   cursor: pointer;
   flex-direction: column;
   align-items: center;
@@ -203,7 +275,6 @@ body {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* 侧栏遮罩层 */
 .sidebar-overlay {
   display: none;
   position: fixed;
@@ -223,7 +294,7 @@ body {
   flex: 1;
   margin-left: var(--sidebar-width);
   min-height: 100vh;
-  padding-top: 60px; /* 留出顶栏空间 */
+  padding-top: 60px;
   display: flex;
   justify-content: center;
   transition: margin-left 0.3s ease;
@@ -238,6 +309,98 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* ========================================
+   SPA 视图切换动画 & 关于页【双列卡片】样式
+   ======================================== */
+.content-section {
+  width: 100%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 关于页双列网格布局 */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* PC端分成左右两列 */
+  gap: 1.5rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.about-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.about-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 4px 4px 0 rgba(107, 138, 174, 0.15);
+}
+
+.about-card h3 {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.about-card p {
+  margin-bottom: 0.8rem;
+  line-height: 1.7;
+}
+
+.about-card p:last-child {
+  margin-bottom: 0;
+}
+
+.about-card.full-width {
+  grid-column: 1 / -1; /* 横跨所有列 */
+}
+
+/* 技能列表保留原来的设计感 */
+.skill-list {
+  list-style: none;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  border-left: 3px solid var(--primary);
+}
+
+.skill-list li {
+  margin-bottom: 0.5rem;
+  word-break: break-all;
+}
+
+.skill-list li:last-child {
+  margin-bottom: 0;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 2.5rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-family: 'Source Code Pro', monospace;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  transform: translateX(-4px);
 }
 
 /* 头像与简介 */
@@ -364,30 +527,44 @@ body {
   font-family: 'Source Code Pro', monospace;
 }
 
-/* ---------- 响应式调整 ---------- */
+/* ========================================
+   响应式调整 (网格重排 & 移动端呼吸灯优化)
+   ======================================== */
 @media (max-width: 768px) {
-  .topbar {
-    padding-left: 60px; /* 给汉堡菜单留空间 */
-  }
-
-  .sidebar {
-    transform: translateX(-100%);
-  }
-
-  .sidebar.open {
-    transform: translateX(0);
-  }
-
-  .sidebar-toggle {
-    display: flex;
-  }
-
-  .main-content-wrapper {
-    margin-left: 0;
-  }
+  .topbar { padding-left: 60px; }
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: flex; }
+  .main-content-wrapper { margin-left: 0; }
 }
 
 @media (max-width: 600px) {
   .topbar { padding-right: 1rem; }
   .bg-deco-text { padding-right: 25vw; }
+  
+  /* 中等手机：压缩间距 */
+  .topbar-right { gap: 1rem; }
+  .lang-switcher { gap: 0.5rem; }
+
+  /* 手机端：关于页面的卡片由双列变为单列 */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem; /* 间距稍微收紧一点 */
+  }
+}
+
+@media (max-width: 480px) {
+  /* 极窄手机 (iPhone SE 等)：开启极客呼吸灯模式 */
+  .status-text { 
+    display: none; /* 隐藏系统文字，只留圆点 */
+  }
+  .topbar-right { 
+    gap: 0.8rem; /* 进一步压缩与语言切换器的间距 */
+  }
+  .lang-btn {
+    font-size: 0.75rem; /* 稍微缩小字号 */
+  }
+  .topbar-logo {
+    font-size: 1rem; /* Logo也稍微收敛一点 */
+  }
 }
