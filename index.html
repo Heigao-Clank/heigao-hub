@@ -10,10 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,500;0,700;0,900;1,900&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="hub.css">
+  <!-- 魔法后缀 ?v=2.0：强制刷新缓存，解决样式丢失问题 -->
+  <link rel="stylesheet" href="hub.css?v=2.0">
 </head>
 <body>
 
+  <!-- 动态背景 -->
   <div class="bg-deco">
     <div class="bg-deco-wrapper">
       <div class="bg-deco-row scroll-left">
@@ -37,6 +39,7 @@
     <span></span>
   </button>
 
+  <!-- 顶栏 -->
   <nav class="topbar">
     <a href="#home" class="topbar-logo">HEIGAO</a>
     <div class="topbar-right">
@@ -55,6 +58,7 @@
 
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+  <!-- 侧边栏 -->
   <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
       <a href="#home" class="sidebar-link active" data-i18n="nav_home">Home</a>
@@ -62,9 +66,13 @@
     </nav>
   </aside>
 
+  <!-- 主内容区 -->
   <div class="main-content-wrapper">
     <main class="main-container">
       
+      <!-- ========================================
+           1. 主页 Section (Home)
+           ======================================== -->
       <div id="section-home" class="content-section">
         <div class="profile-section">
           <div class="avatar">
@@ -76,7 +84,9 @@
 
         <div class="link-list">
           <a href="https://kuro-utau.heigao.me" class="nav-link">
-            <span data-i18n="link_utau">「熵尾音 クロ」 UTAU 展示页</span>
+            <div class="nav-link-content">
+              <span data-i18n="link_utau">「熵尾音 クロ」 UTAU 展示页</span>
+            </div>
             <div class="nav-link-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -85,8 +95,12 @@
             </div>
           </a>
 
+          <!-- 加入了 Badge 注脚的 Blog 链接 -->
           <a href="https://blog.heigao.me" class="nav-link">
-            <span data-i18n="link_blog">创作日志 Blog</span>
+            <div class="nav-link-content">
+              <span data-i18n="link_blog">创作日志 Blog</span>
+              <span class="badge" data-i18n="badge_wip">未创建</span>
+            </div>
             <div class="nav-link-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -121,6 +135,9 @@
         </div>
       </div>
 
+      <!-- ========================================
+           2. 关于我 Section (About)
+           ======================================== -->
       <div id="section-about" class="content-section" style="display: none;">
         <h1 class="name" data-i18n="about_title" style="text-align: center;">关于我</h1>
         
@@ -161,9 +178,7 @@
   </div>
 
   <script>
-    // ==========================================
     // UI 交互逻辑 (侧边栏)
-    // ==========================================
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
@@ -177,9 +192,7 @@
     sidebarToggle.addEventListener('click', toggleSidebar);
     overlay.addEventListener('click', toggleSidebar);
 
-    // ==========================================
-    // 路由切换逻辑 (单页应用核心 SPA)
-    // ==========================================
+    // 路由切换逻辑 (SPA)
     function switchSection(hash) {
       const sectionId = hash.replace('#', '') || 'home';
 
@@ -212,9 +225,7 @@
       switchSection(window.location.hash);
     });
 
-    // ==========================================
-    // 国际化 (i18n) 语言切换逻辑
-    // ==========================================
+    // 国际化 (i18n) 语言切换字典
     const i18n = {
       "zh": {
         "name": "黑篙 Heigao",
@@ -224,6 +235,7 @@
         "nav_about": "关于 黑篙🌌",
         "link_utau": "「熵尾音 クロ」 UTAU 展示页",
         "link_blog": "创作日志 Blog",
+        "badge_wip": "未创建", // 新增词条
         "about_title": "关于我",
         "card1_title": "✦ 个人简介",
         "card2_title": "✦ 技能树",
@@ -246,6 +258,7 @@
         "nav_about": "About Heigao🌌",
         "link_utau": "Shouo Kuro UTAU Voicebank",
         "link_blog": "Devlog & Blog",
+        "badge_wip": "Coming Soon", // 新增词条
         "about_title": "About Me",
         "card1_title": "✦ Profile",
         "card2_title": "✦ Skill Tree",
@@ -268,6 +281,7 @@
         "nav_about": "プロフィール🌌",
         "link_utau": "「熵尾音 クロ」 UTAU 配布所",
         "link_blog": "創作ブログ",
+        "badge_wip": "準備中", // 新增词条
         "about_title": "プロフィール",
         "card1_title": "✦ プロフィール",
         "card2_title": "✦ スキルツリー",
@@ -329,9 +343,6 @@
       });
     });
 
-    // ==========================================
-    // 网页初始化
-    // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
       initLanguage(); 
       switchSection(window.location.hash); 

@@ -327,7 +327,7 @@ body {
 /* 关于页双列网格布局 */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* PC端分成左右两列 */
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
   margin-top: 2rem;
   width: 100%;
@@ -366,10 +366,9 @@ body {
 }
 
 .about-card.full-width {
-  grid-column: 1 / -1; /* 横跨所有列 */
+  grid-column: 1 / -1;
 }
 
-/* 技能列表保留原来的设计感 */
 .skill-list {
   list-style: none;
   font-family: 'Source Code Pro', monospace;
@@ -389,6 +388,7 @@ body {
   margin-bottom: 0;
 }
 
+/* 被遗漏的返回按钮样式补全 */
 .back-btn {
   display: inline-block;
   margin-top: 2.5rem;
@@ -443,7 +443,7 @@ body {
   font-family: 'Source Code Pro', monospace;
 }
 
-/* 导航链接列表 */
+/* 导航链接列表及注脚 */
 .link-list {
   width: 100%;
   display: flex;
@@ -471,6 +471,29 @@ body {
   color: white;
   transform: translate(-4px, -4px);
   box-shadow: 4px 4px 0 var(--primary-dark);
+}
+
+.nav-link-content {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* 未创建注脚 Badge 样式 */
+.badge {
+  font-size: 0.7rem;
+  background: rgba(107, 138, 174, 0.2);
+  color: var(--primary-dark);
+  padding: 0.15rem 0.6rem;
+  border-radius: 12px;
+  font-family: 'Source Code Pro', monospace;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.nav-link:hover .badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
 }
 
 .nav-link-icon {
@@ -528,7 +551,7 @@ body {
 }
 
 /* ========================================
-   响应式调整 (网格重排 & 移动端呼吸灯优化)
+   响应式调整
    ======================================== */
 @media (max-width: 768px) {
   .topbar { padding-left: 60px; }
@@ -541,30 +564,17 @@ body {
 @media (max-width: 600px) {
   .topbar { padding-right: 1rem; }
   .bg-deco-text { padding-right: 25vw; }
-  
-  /* 中等手机：压缩间距 */
   .topbar-right { gap: 1rem; }
   .lang-switcher { gap: 0.5rem; }
-
-  /* 手机端：关于页面的卡片由双列变为单列 */
   .about-grid {
     grid-template-columns: 1fr;
-    gap: 1rem; /* 间距稍微收紧一点 */
+    gap: 1rem; 
   }
 }
 
 @media (max-width: 480px) {
-  /* 极窄手机 (iPhone SE 等)：开启极客呼吸灯模式 */
-  .status-text { 
-    display: none; /* 隐藏系统文字，只留圆点 */
-  }
-  .topbar-right { 
-    gap: 0.8rem; /* 进一步压缩与语言切换器的间距 */
-  }
-  .lang-btn {
-    font-size: 0.75rem; /* 稍微缩小字号 */
-  }
-  .topbar-logo {
-    font-size: 1rem; /* Logo也稍微收敛一点 */
-  }
+  .status-text { display: none; }
+  .topbar-right { gap: 0.8rem; }
+  .lang-btn { font-size: 0.75rem; }
+  .topbar-logo { font-size: 1rem; }
 }
