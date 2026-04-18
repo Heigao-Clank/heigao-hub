@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>黑篙 Heigao | 个人导航站</title>
+  <meta name="description" content="黑篙(Heigao)的个人数字门户。包含 UTAU 音源、创作日志及社交媒体链接。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,500;0,700;0,900;1,900&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="hub.css">
+</head>
+<body>
+
+  <div class="bg-deco">
+    <div class="bg-deco-wrapper">
+      <div class="bg-deco-row scroll-left">
+        <div class="bg-deco-text">HEIGAO HUB ✦ HEIGAO HUB ✦ </div>
+        <div class="bg-deco-text">HEIGAO HUB ✦ HEIGAO HUB ✦ </div>
+      </div>
+      <div class="bg-deco-row scroll-right">
+        <div class="bg-deco-text">PORTFOLIO & WORKS PORTFOLIO & WORKS </div>
+        <div class="bg-deco-text">PORTFOLIO & WORKS PORTFOLIO & WORKS </div>
+      </div>
+      <div class="bg-deco-row scroll-left" style="animation-duration: 70s;">
+        <div class="bg-deco-text">UTAU / CREATOR / ART UTAU / CREATOR / ART </div>
+        <div class="bg-deco-text">UTAU / CREATOR / ART UTAU / CREATOR / ART </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="topbar">
+    <a href="#" class="topbar-logo">HEIGAO</a>
+    <div class="topbar-right">
+      <span>SYS.ONLINE</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-link active">Home</a>
+      <a href="https://kuro-utau.heigao.me" class="sidebar-link">UTAU クロ</a>
+      <a href="https://blog.heigao.me" class="sidebar-link">Blog</a>
+      <a href="#about" class="sidebar-link">About</a>
+    </nav>
+  </aside>
+
+  <div class="main-content-wrapper">
+    <main class="main-container">
+      
+      <div class="profile-section">
+        <div class="avatar">
+          <img src="assets/avatar.webp" alt="黑篙头像">
+        </div>
+        <h1 class="name">黑篙 Heigao</h1>
+        <p class="bio">Digital Creator / UTAU / Art</p>
+      </div>
+
+      <div class="link-list">
+        
+        <a href="https://kuro-utau.heigao.me" class="nav-link">
+          <span>「熵尾音 クロ」 UTAU 展示页</span>
+          <div class="nav-link-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <a href="https://blog.heigao.me" class="nav-link">
+          <span>创作日志 Blog</span>
+          <div class="nav-link-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="social-section">
+        <a href="https://space.bilibili.com/695724697" target="_blank" class="social-btn" title="Bilibili">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+            <rect x="2" y="7" width="20" height="15"></rect>
+            <polyline points="17 2 12 7 7 2"></polyline>
+            <line x1="9" y1="11" x2="9" y2="14"></line>
+            <line x1="15" y1="11" x2="15" y2="14"></line>
+          </svg>
+        </a>
+        
+        <a href="https://twitter.com/heigao_tickle" target="_blank" class="social-btn" title="Twitter / X">
+          <span style="font-weight: 900; font-size: 1.2rem;">𝕏</span>
+        </a>
+
+        <a href="https://github.com/Heigao-Clank" target="_blank" class="social-btn" title="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="footer">
+        <p>HEIGAO.ME © 2026</p>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // 移动端侧栏交互
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    function toggleSidebar() {
+      sidebarToggle.classList.toggle('active');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+
+    sidebarToggle.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+  </script>
+</body>
+</html>
