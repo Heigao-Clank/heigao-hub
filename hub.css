@@ -1,6 +1,87 @@
 /* ========================================
    Heigao Hub - Minimalist Square UI
+   核心样式表
    ======================================== */
+
+/* ---------- 本地字体引入 (启用 swap 优化渲染性能) ---------- */
+
+/* 1. 西文设计字体: Jost */
+@font-face {
+  font-family: 'Jost';
+  src: url('./assets/font/Jost-Medium.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* 优化：避免字体加载期间文字不可见 (FOIT) */
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('./assets/font/Jost-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('./assets/font/Jost-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('./assets/font/Jost-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('./assets/font/Jost-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* 2. 中日文全语言支持: HarmonyOS Sans SC */
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('./assets/font/HarmonyOS_Sans_SC_Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('./assets/font/HarmonyOS_Sans_SC_Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('./assets/font/HarmonyOS_Sans_SC_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. 功能性等宽字体: Source Code Pro */
+@font-face {
+  font-family: 'Source Code Pro';
+  src: url('./assets/font/SourceCodePro-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  src: url('./assets/font/SourceCodePro-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- 基础变量配置 ---------- */
 :root {
   --primary: #6B8AAE;
   --primary-rgb: 107, 138, 174;
@@ -23,14 +104,22 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, 'Jost', 'Source Code Pro', sans-serif;
+  /* 严格的字体回退链：Jost 渲染英文 -> HarmonyOS 渲染中日文 -> 系统兜底 */
+  font-family: 'Jost', 'HarmonyOS Sans', 'Source Code Pro', sans-serif;
   background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
   min-height: 100vh;
   color: var(--text-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; /* Mac 渲染优化 */
   overflow-x: hidden;
   display: flex;
+}
+
+/* 键盘焦点无障碍状态 */
+:focus-visible {
+  outline: 2px dashed var(--primary-dark);
+  outline-offset: 4px;
 }
 
 /* ---------- 动态背景 ---------- */
@@ -55,6 +144,7 @@ body {
 .bg-deco-row {
   display: flex;
   width: max-content;
+  will-change: transform; /* 动画性能优化 */
 }
 
 .bg-deco-text {
@@ -85,7 +175,7 @@ body {
   100% { transform: translateX(0); }
 }
 
-/* ---------- 极简方正顶栏 ---------- */
+/* ---------- 顶栏 ---------- */
 .topbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -121,9 +211,6 @@ body {
   background: var(--primary);
 }
 
-/* ========================================
-   Language Switcher & Status UI
-   ======================================== */
 .topbar-right {
   display: flex;
   align-items: center;
@@ -148,10 +235,6 @@ body {
   position: relative;
 }
 
-.lang-btn:hover {
-  color: var(--primary);
-}
-
 .lang-btn.active {
   color: var(--primary);
   font-weight: 600;
@@ -173,7 +256,6 @@ body {
   width: 100%;
 }
 
-/* 带有呼吸灯的状态指示器 */
 .sys-status {
   display: flex;
   align-items: center;
@@ -189,7 +271,6 @@ body {
   height: 8px;
   background-color: var(--primary);
   border-radius: 50%;
-  box-shadow: 0 0 5px rgba(107, 138, 174, 0.5);
   animation: pulse 4s infinite ease-in-out;
 }
 
@@ -199,7 +280,7 @@ body {
   100% { opacity: 1; transform: scale(1); }
 }
 
-/* ---------- 自适应侧栏 ---------- */
+/* ---------- 侧栏与日志历史 ---------- */
 .sidebar {
   width: var(--sidebar-width);
   height: calc(100vh - 60px);
@@ -213,10 +294,12 @@ body {
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.3s ease;
 }
 
 .sidebar-nav {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -227,7 +310,8 @@ body {
   padding: 0.8rem 1rem;
   color: var(--text-dark);
   text-decoration: none;
-  font-weight: 600;
+  font-family: 'HarmonyOS Sans', sans-serif;
+  font-weight: 700;
   border: 1px solid transparent;
   transition: all 0.2s;
 }
@@ -239,7 +323,62 @@ body {
   transform: translateX(4px);
 }
 
-/* ---------- 侧栏切换按钮 (移动端) ---------- */
+.sidebar-history-wrapper {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  flex-grow: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-subheading {
+  font-family: 'Jost', 'HarmonyOS Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.sidebar-history {
+  overflow-y: auto;
+  padding-right: 5px;
+  /* 优化：底部透明渐变遮罩 */
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.sidebar-history::-webkit-scrollbar {
+  width: 3px;
+}
+.sidebar-history::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+.history-item {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.history-date {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.7rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.history-text {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
 .sidebar-toggle {
   display: none;
   position: fixed;
@@ -311,9 +450,6 @@ body {
   align-items: center;
 }
 
-/* ========================================
-   SPA 视图切换动画 & 关于页【双列卡片】样式
-   ======================================== */
 .content-section {
   width: 100%;
   animation: fadeIn 0.3s ease-out;
@@ -324,6 +460,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ---------- 关于页网格 ---------- */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -338,30 +475,15 @@ body {
   padding: 1.5rem;
   color: var(--text-dark);
   font-size: 0.95rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.about-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 4px 4px 0 rgba(107, 138, 174, 0.15);
 }
 
 .about-card h3 {
-  font-family: 'Jost', sans-serif;
+  font-family: 'Jost', 'HarmonyOS Sans', sans-serif;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   color: var(--primary);
   border-bottom: 1px dashed var(--border);
   padding-bottom: 0.5rem;
-}
-
-.about-card p {
-  margin-bottom: 0.8rem;
-  line-height: 1.7;
-}
-
-.about-card p:last-child {
-  margin-bottom: 0;
 }
 
 .about-card.full-width {
@@ -370,7 +492,7 @@ body {
 
 .skill-list {
   list-style: none;
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Source Code Pro', 'HarmonyOS Sans', monospace;
   font-size: 0.9rem;
   color: var(--text-light);
   background: rgba(255, 255, 255, 0.2);
@@ -378,30 +500,16 @@ body {
   border-left: 3px solid var(--primary);
 }
 
-.skill-list li {
-  margin-bottom: 0.5rem;
-  word-break: break-all;
-}
-
-.skill-list li:last-child {
-  margin-bottom: 0;
-}
-
 .back-btn {
   display: inline-block;
   margin-top: 2.5rem;
   color: var(--primary);
   text-decoration: none;
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Source Code Pro', 'HarmonyOS Sans', monospace;
   font-weight: 600;
-  transition: transform 0.2s;
 }
 
-.back-btn:hover {
-  transform: translateX(-4px);
-}
-
-/* 头像与简介 */
+/* ---------- 个人资料 ---------- */
 .profile-section {
   text-align: center;
   margin-bottom: 3rem;
@@ -418,7 +526,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 6px 6px 0 rgba(107, 138, 174, 0.2); 
+  box-shadow: 6px 6px 0 rgba(107, 138, 174, 0.2);
 }
 
 .avatar img {
@@ -428,6 +536,7 @@ body {
 }
 
 .name {
+  font-family: 'Jost', 'HarmonyOS Sans', sans-serif;
   font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: 2px;
@@ -438,10 +547,10 @@ body {
 .bio {
   font-size: 0.95rem;
   color: var(--text-light);
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Source Code Pro', 'HarmonyOS Sans', monospace;
 }
 
-/* 导航链接列表及注脚 */
+/* ---------- 链接列表 ---------- */
 .link-list {
   width: 100%;
   display: flex;
@@ -459,22 +568,14 @@ body {
   color: var(--text-dark);
   text-decoration: none;
   font-weight: 600;
-  letter-spacing: 1px;
   transition: all 0.2s ease;
 }
 
 .nav-link:hover {
   background: var(--primary);
-  border-color: var(--primary);
   color: white;
   transform: translate(-4px, -4px);
   box-shadow: 4px 4px 0 var(--primary-dark);
-}
-
-.nav-link-content {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
 }
 
 .badge {
@@ -483,30 +584,9 @@ body {
   color: var(--primary-dark);
   padding: 0.15rem 0.6rem;
   border-radius: 12px;
-  font-family: 'Source Code Pro', monospace;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-family: 'Source Code Pro', 'HarmonyOS Sans', monospace;
 }
 
-.nav-link:hover .badge {
-  background: rgba(255, 255, 255, 0.25);
-  color: white;
-}
-
-.nav-link-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-}
-
-.nav-link:hover .nav-link-icon svg {
-  stroke: white;
-  fill: white;
-}
-
-/* 社交媒体块 */
 .social-section {
   margin-top: 3rem;
   width: 100%;
@@ -523,56 +603,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
   border: 1px solid var(--text-muted);
   color: var(--text-dark);
   text-decoration: none;
-  transition: all 0.2s ease;
 }
 
-.social-btn:hover {
-  background: var(--text-dark);
-  color: white;
-  border-color: var(--text-dark);
-  transform: translateY(-4px);
-  box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
-}
-
-/* 底部版权 */
 .footer {
   margin-top: 4rem;
   text-align: center;
   font-size: 0.8rem;
   color: var(--text-muted);
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Source Code Pro', 'HarmonyOS Sans', monospace;
 }
 
-/* ========================================
-   响应式调整
-   ======================================== */
+/* ---------- 响应式 ---------- */
 @media (max-width: 768px) {
   .topbar { padding-left: 60px; }
   .sidebar { transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
   .sidebar-toggle { display: flex; }
   .main-content-wrapper { margin-left: 0; }
-}
-
-@media (max-width: 600px) {
-  .topbar { padding-right: 1rem; }
-  .bg-deco-text { padding-right: 25vw; }
-  .topbar-right { gap: 1rem; }
-  .lang-switcher { gap: 0.5rem; }
-  
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem; 
-  }
-}
-
-@media (max-width: 480px) {
-  .status-text { display: none; }
-  .topbar-right { gap: 0.8rem; }
-  .lang-btn { font-size: 0.75rem; }
-  .topbar-logo { font-size: 1rem; }
+  .about-grid { grid-template-columns: 1fr; }
 }
