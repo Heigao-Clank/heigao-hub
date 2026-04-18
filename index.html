@@ -11,6 +11,67 @@
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,500;0,700;0,900;1,900&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="hub.css">
+  
+  <style>
+    /* ========================================
+       Language Switcher UI (保持极简风格)
+       ======================================== */
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem; /* 在 SYS.ONLINE 和 语言切换器之间留出空间 */
+    }
+
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.2rem 0;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .lang-btn:hover {
+      color: var(--primary);
+    }
+
+    .lang-btn.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* 激活状态的下划线动画效果 */
+    .lang-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.2s ease;
+    }
+
+    .lang-btn.active::after {
+      width: 100%;
+    }
+
+    .sys-status {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
 </head>
 <body>
 
@@ -40,7 +101,12 @@
   <nav class="topbar">
     <a href="#" class="topbar-logo">HEIGAO</a>
     <div class="topbar-right">
-      <span>SYS.ONLINE</span>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="zh">ZH</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ja">JA</button>
+      </div>
+      <span class="sys-status">SYS.ONLINE</span>
     </div>
   </nav>
 
@@ -48,10 +114,10 @@
 
   <aside class="sidebar" id="sidebar">
     <nav class="sidebar-nav">
-      <a href="#" class="sidebar-link active">Home</a>
-      <a href="https://kuro-utau.heigao.me" class="sidebar-link">UTAU クロ</a>
-      <a href="https://blog.heigao.me" class="sidebar-link">Blog</a>
-      <a href="#about" class="sidebar-link">About</a>
+      <a href="#" class="sidebar-link active" data-i18n="nav_home">Home</a>
+      <a href="https://kuro-utau.heigao.me" class="sidebar-link" data-i18n="nav_utau">UTAU クロ</a>
+      <a href="https://blog.heigao.me" class="sidebar-link" data-i18n="nav_blog">Blog</a>
+      <a href="#about" class="sidebar-link" data-i18n="nav_about">About</a>
     </nav>
   </aside>
 
@@ -62,14 +128,14 @@
         <div class="avatar">
           <img src="assets/avatar.webp" alt="黑篙头像">
         </div>
-        <h1 class="name">黑篙 Heigao</h1>
-        <p class="bio">Digital Creator / UTAU / Art</p>
+        <h1 class="name" data-i18n="name">黑篙 Heigao</h1>
+        <p class="bio" data-i18n="bio">Digital Creator / UTAU / Art</p>
       </div>
 
       <div class="link-list">
         
         <a href="https://kuro-utau.heigao.me" class="nav-link">
-          <span>「熵尾音 クロ」 UTAU 展示页</span>
+          <span data-i18n="link_utau">「熵尾音 クロ」 UTAU 展示页</span>
           <div class="nav-link-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -79,7 +145,7 @@
         </a>
 
         <a href="https://blog.heigao.me" class="nav-link">
-          <span>创作日志 Blog</span>
+          <span data-i18n="link_blog">创作日志 Blog</span>
           <div class="nav-link-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -101,7 +167,10 @@
         </a>
         
         <a href="https://twitter.com/heigao_tickle" target="_blank" class="social-btn" title="Twitter / X">
-          <span style="font-weight: 900; font-size: 1.2rem;">𝕏</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+          <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+          <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+          </svg>
         </a>
 
         <a href="https://github.com/Heigao-Clank" target="_blank" class="social-btn" title="GitHub">
@@ -119,7 +188,9 @@
   </div>
 
   <script>
-    // 移动端侧栏交互
+    // ==========================================
+    // UI 交互逻辑 (侧边栏)
+    // ==========================================
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
@@ -132,6 +203,126 @@
 
     sidebarToggle.addEventListener('click', toggleSidebar);
     overlay.addEventListener('click', toggleSidebar);
+
+    // ==========================================
+    // 国际化 (i18n) 语言切换逻辑
+    // ==========================================
+    
+    // 1. 翻译字典
+    const i18n = {
+      "zh": {
+        "name": "黑篙 Heigao",
+        "title": "黑篙 Heigao | 个人导航站",
+        "bio": "数字创作者 / UTAU / 插画 / 设计",
+        "nav_home": "主页",
+        "nav_utau": "UTAU クロ",
+        "nav_blog": "博客",
+        "nav_about": "关于",
+        "link_utau": "「熵尾音 クロ」 UTAU 展示页",
+        "link_blog": "创作日志 Blog"
+      },
+      "en": {
+        "name": "Heigao 黑篙",
+        "title": "Heigao Hub | Portfolio & Links",
+        "bio": "Digital Creator / UTAU / Art",
+        "nav_home": "Home",
+        "nav_utau": "UTAU Kuro",
+        "nav_blog": "Blog",
+        "nav_about": "About",
+        "link_utau": "「熵尾音 クロ」UTAU Voicebank",
+        "link_blog": "Devlog & Blog"
+      },
+      "ja": {
+        "name": "Heigao 黒篙",
+        "title": "黒篙 Heigao | ポートフォリオ",
+        "bio": "デジタルクリエイター / UTAU / アート",
+        "nav_home": "ホーム",
+        "nav_utau": "UTAU クロ",
+        "nav_blog": "ブログ",
+        "nav_about": "プロフィールt",
+        "link_utau": "「熵尾音 クロ」 UTAU 配布所",
+        "link_blog": "創作ブログ"
+      }
+    };
+
+    let currentLang = 'zh'; // 默认语言设定为中文
+
+    // 2. 核心翻译执行函数
+    function setLanguage(lang) {
+      // 检查字典中是否有该语言，如果没有则回退到中文
+      if (!i18n[lang]) {
+        lang = 'zh';
+      }
+      currentLang = lang;
+
+      if (i18n[currentLang]["title"]) {
+        document.title = i18n[currentLang]["title"];
+        }
+
+  document.documentElement.lang = currentLang;
+
+      // 更新 HTML 标签的 lang 属性 (对 SEO 友好)
+      document.documentElement.lang = currentLang;
+
+      // 替换所有带有 data-i18n 属性的文本
+      const elements = document.querySelectorAll('[data-i18n]');
+      elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[currentLang][key]) {
+          el.innerText = i18n[currentLang][key];
+        }
+      });
+
+      // 更新顶栏按钮的激活状态
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.getAttribute('data-lang') === currentLang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      
+      // 可以选择将用户的语言偏好存入本地，这样下次打开依然是这个语言
+      localStorage.setItem('preferredLang', currentLang);
+    }
+
+    // 3. 初始加载时的语言检测
+    function initLanguage() {
+      // 优先读取用户之前手动选择过的语言
+      let targetLang = localStorage.getItem('preferredLang');
+      
+      if (!targetLang) {
+         // 如果没有记录，则检测系统语言
+         // navigator.language 获取的值可能是 'zh-CN', 'en-US', 'ja' 等
+         const sysLang = navigator.language.toLowerCase();
+         
+         // 粗略匹配前两个字符
+         if (sysLang.startsWith('zh')) {
+             targetLang = 'zh';
+         } else if (sysLang.startsWith('en')) {
+             targetLang = 'en';
+         } else if (sysLang.startsWith('ja')) {
+             targetLang = 'ja';
+         } else {
+             // 识别不到或未录入的语言，默认导向中文 (根据你的需求)
+             targetLang = 'zh'; 
+         }
+      }
+
+      setLanguage(targetLang);
+    }
+
+    // 4. 为切换按钮绑定点击事件
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const selectedLang = e.target.getAttribute('data-lang');
+        setLanguage(selectedLang);
+      });
+    });
+
+    // 5. 网页加载完成后执行初始化
+    document.addEventListener('DOMContentLoaded', initLanguage);
+
   </script>
 </body>
 </html>
