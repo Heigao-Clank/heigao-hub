@@ -8,35 +8,35 @@
 /* 1. 西文设计字体: Jost */
 @font-face {
   font-family: 'Jost';
-  src: url('./assets/font/Jost-Medium.ttf') format('truetype');
+  src: url('./assets/font/Jost-Medium.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap; /* 优化：避免字体加载期间文字不可见 (FOIT) */
 }
 @font-face {
   font-family: 'Jost';
-  src: url('./assets/font/Jost-Medium.ttf') format('truetype');
+  src: url('./assets/font/Jost-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Jost';
-  src: url('./assets/font/Jost-Bold.ttf') format('truetype');
+  src: url('./assets/font/Jost-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Jost';
-  src: url('./assets/font/Jost-Black.ttf') format('truetype');
+  src: url('./assets/font/Jost-Black.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Jost';
-  src: url('./assets/font/Jost-BlackItalic.ttf') format('truetype');
+  src: url('./assets/font/Jost-BlackItalic.woff2') format('woff2');
   font-weight: 900;
   font-style: italic;
   font-display: swap;
@@ -45,21 +45,21 @@
 /* 2. 中日文全语言支持: HarmonyOS Sans SC */
 @font-face {
   font-family: 'HarmonyOS Sans';
-  src: url('./assets/font/HarmonyOS_Sans_SC_Regular.ttf') format('truetype');
+  src: url('./assets/font/HarmonyOS_Sans_SC_Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'HarmonyOS Sans';
-  src: url('./assets/font/HarmonyOS_Sans_SC_Medium.ttf') format('truetype');
+  src: url('./assets/font/HarmonyOS_Sans_SC_Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'HarmonyOS Sans';
-  src: url('./assets/font/HarmonyOS_Sans_SC_Bold.ttf') format('truetype');
+  src: url('./assets/font/HarmonyOS_Sans_SC_Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -68,14 +68,14 @@
 /* 3. 功能性等宽字体: Source Code Pro */
 @font-face {
   font-family: 'Source Code Pro';
-  src: url('./assets/font/SourceCodePro-Regular.ttf') format('truetype');
+  src: url('./assets/font/SourceCodePro-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Source Code Pro';
-  src: url('./assets/font/SourceCodePro-Semibold.ttf') format('truetype');
+  src: url('./assets/font/SourceCodePro-Semibold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -201,6 +201,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap; /* 防止 Logo 被折行 */
+  flex-shrink: 0; /* 防止 Logo 被挤压 */
 }
 
 .topbar-logo::before {
@@ -209,12 +211,14 @@ body {
   width: 12px;
   height: 12px;
   background: var(--primary);
+  flex-shrink: 0;
 }
 
 .topbar-right {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  flex-shrink: 0; /* 防止右侧控制区被压缩 */
 }
 
 .lang-switcher {
@@ -233,6 +237,7 @@ body {
   padding: 0.2rem 0;
   transition: all 0.2s ease;
   position: relative;
+  white-space: nowrap;
 }
 
 .lang-btn.active {
@@ -263,6 +268,7 @@ body {
   font-family: 'Source Code Pro', monospace;
   font-size: 0.85rem;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .status-dot {
@@ -272,6 +278,7 @@ body {
   background-color: var(--primary);
   border-radius: 50%;
   animation: pulse 4s infinite ease-in-out;
+  flex-shrink: 0;
 }
 
 @keyframes pulse {
@@ -475,6 +482,8 @@ body {
   padding: 1.5rem;
   color: var(--text-dark);
   font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .about-card h3 {
@@ -498,6 +507,19 @@ body {
   background: rgba(255, 255, 255, 0.2);
   padding: 1rem;
   border-left: 3px solid var(--primary);
+}
+
+/* 关于页面中的联系方式图标组 */
+.contact-socials {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.contact-socials .social-btn {
+  width: 42px;
+  height: 42px;
 }
 
 .back-btn {
@@ -606,6 +628,15 @@ body {
   border: 1px solid var(--text-muted);
   color: var(--text-dark);
   text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+  background: var(--text-dark);
+  color: white;
+  border-color: var(--text-dark);
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
 }
 
 .footer {
@@ -618,20 +649,21 @@ body {
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 768px) {
-  .topbar { padding-left: 60px; padding-right: 1.5rem; }
+  /* 优化：加宽左侧 padding，防止 Logo 和汉堡菜单发生重叠 */
+  .topbar { padding-left: 72px; padding-right: 1rem; }
   .sidebar { transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
   .sidebar-toggle { display: flex; }
   .main-content-wrapper { margin-left: 0; }
   .about-grid { grid-template-columns: 1fr; }
+  
+  /* 优化：屏幕处于平板或小窗口状态时，立刻隐藏多余文字，为语言切换腾出空间 */
+  .status-text { display: none; }
 }
 
 @media (max-width: 600px) {
-  .topbar { padding-right: 1rem; }
   .topbar-right { gap: 1rem; }
   .lang-switcher { gap: 0.5rem; }
-  /* 在屏幕较小时，隐藏系统状态文字，仅保留呼吸灯以节约空间 */
-  .status-text { display: none; }
 }
 
 @media (max-width: 480px) {

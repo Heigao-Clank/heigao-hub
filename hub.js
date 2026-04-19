@@ -2,7 +2,6 @@
 // Heigao Hub - 核心交互逻辑与多语言脚本
 // ==========================================
 
-// 将所有逻辑包裹在 DOMContentLoaded 中，避免污染全局命名空间，并确保 DOM 节点已完全加载
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================
@@ -36,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_title": "关于我",
       "card1_title": "✦ 个人简介",
       "card2_title": "✦ 技能树",
-      "card3_title": "✦ 约稿与合作 (Commission)",
+      "card3_title": "✦ 约稿与合作",
+      "card4_title": "✦ 联系与关注",
       "about_p1": "你好，我是黑篙 (Heigao)。无形无意。",
       "about_p2": "目前专注于「熵尾音 クロ」的音源开发与完善，同时偶尔掉落一些视觉艺术与设计相关的随笔创作。",
       "about_tools": "常用装备",
@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_c1": "1. 我菜的抠脚，还没有接稿的想法。",
       "about_c2": "2. 我菜的抠脚，还没有接稿的想法。",
       "about_c3": "3. 我菜的抠脚，还没有合作的想法。",
+      "about_contact_desc": "可以通过以下平台找到我，或者查看我的更多动态：",
       "back_home": "← 返回主页"
     },
     "en": {
@@ -63,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_title": "About Me",
       "card1_title": "✦ Profile",
       "card2_title": "✦ Skill Tree",
-      "card3_title": "✦ Commission & Contact",
+      "card3_title": "✦ Commission",
+      "card4_title": "✦ Contact",
       "about_p1": "Hi, I'm Heigao. Formless and intentionless.",
       "about_p2": "Currently focusing on the development of the UTAU voicebank 'Kuro', alongside occasional visual art and design projects.",
       "about_tools": "Tools",
@@ -75,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_c1": "1. I'm still a massive noob, so I'm not taking commissions right now.",
       "about_c2": "2. I'm still a massive noob, so I'm not taking commissions right now.",
       "about_c3": "3. I'm still a massive noob, so I don't have any collaboration plans.",
+      "about_contact_desc": "You can find me or check out my latest updates on these platforms:",
       "back_home": "← Back to Home"
     },
     "ja": {
@@ -90,7 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_title": "私について",
       "card1_title": "✦ プロフィール",
       "card2_title": "✦ スキルツリー",
-      "card3_title": "✦ ご依頼・お問い合わせ (Commission)",
+      "card3_title": "✦ ご依頼・お問い合わせ",
+      "card4_title": "✦ 連絡先・フォロー",
       "about_p1": "こんにちは、黒篙（Heigao）です。無形無意。",
       "about_p2": "現在はUTAU音源「熵尾音 クロ」の開発を中心に、ビジュアルアートやデザインの創作も時々行っています。",
       "about_tools": "使用ツール",
@@ -102,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_c1": "1. まだまだへっぽこなので、ご依頼はお受けしていません。",
       "about_c2": "2. まだまだへっぽこなので、ご依頼はお受けしていません。",
       "about_c3": "3. まだまだへっぽこなので、コラボの予定もありません。",
+      "about_contact_desc": "以下のプラットフォームで私を見つけるか、最新の活動を確認できます：",
       "back_home": "← ホームに戻る"
     }
   };
@@ -113,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. 核心功能与逻辑
   // ==========================================
 
-  // --- 切换侧边栏状态 ---
   function toggleSidebar() {
     if (!DOM.sidebarToggle || !DOM.sidebar || !DOM.overlay) return;
     DOM.sidebarToggle.classList.toggle('active');
@@ -121,17 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
     DOM.overlay.classList.toggle('active');
   }
 
-  // --- 路由切换逻辑 (单页应用核心 SPA) ---
   function switchSection(hash) {
-    // 安全处理与过滤非法字符
     let sectionId = (hash.replace('#', '') || 'home').trim();
 
-    // 隐藏所有区块
     DOM.sections.forEach(section => {
       section.style.display = 'none';
     });
 
-    // 查找并显示目标区块，若找不到则回退到 home
     const target = document.getElementById(`section-${sectionId}`);
     if (target) {
       target.style.display = 'block';
@@ -141,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
       sectionId = 'home';
     }
 
-    // 更新侧边栏导航链接的激活状态
     DOM.sidebarLinks.forEach(link => {
       const href = link.getAttribute('href');
       if (href === `#${sectionId}` || (sectionId === 'home' && href === '#home')) {
@@ -151,25 +150,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 移动端体验优化：切换区块后自动收起侧边栏
     if (DOM.sidebar && DOM.sidebar.classList.contains('open')) {
       toggleSidebar();
     }
   }
 
-  // --- 设置并渲染语言 ---
   function setLanguage(lang) {
-    // 防错：如果目标语言不存在于字典中，则降级为中文
     if (!i18nData[lang]) lang = 'zh';
     currentLang = lang;
 
-    // 更新网页基础信息
     if (i18nData[currentLang]["title"]) {
       document.title = i18nData[currentLang]["title"];
     }
     document.documentElement.lang = currentLang;
 
-    // 根据缓存的 DOM 节点批量更新文本
     DOM.i18nElements.forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (i18nData[currentLang][key]) {
@@ -177,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 更新语言切换按钮样式
     DOM.langBtns.forEach(btn => {
       if (btn.getAttribute('data-lang') === currentLang) {
         btn.classList.add('active');
@@ -186,15 +179,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 将用户偏好存储到浏览器缓存
     localStorage.setItem('preferredLang', currentLang);
   }
 
-  // --- 初始化系统偏好语言 ---
   function initLanguage() {
     let targetLang = localStorage.getItem('preferredLang');
     if (!targetLang) {
-      // 智能回退机制：根据操作系统语言选择匹配配置
       const sysLang = navigator.language.toLowerCase();
       if (sysLang.startsWith('zh')) targetLang = 'zh';
       else if (sysLang.startsWith('en')) targetLang = 'en';
@@ -226,12 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. 执行初始渲染
   // ==========================================
   
-  // 注入动态版权年份
   if (DOM.yearElement) {
     DOM.yearElement.innerText = new Date().getFullYear();
   }
 
-  // 初始化语言配置和 URL 路由
   initLanguage();
   switchSection(window.location.hash);
 
