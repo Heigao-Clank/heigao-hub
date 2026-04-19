@@ -10,7 +10,7 @@
   <link rel="icon" href="./assets/image/icon.png" type="image/png">
   
   <!-- 引入样式表 (版本升级以清除缓存) -->
-  <link rel="stylesheet" href="hub.css?v=14.0">
+  <link rel="stylesheet" href="hub.css?v=15.0">
 </head>
 <body>
 
@@ -183,6 +183,8 @@
           <article class="about-card">
             <h3 data-i18n="card4_title">✦ 联系与关注 (Contact)</h3>
             <p data-i18n="about_contact_desc">可以通过以下平台找到我，或者查看我的更多动态：</p>
+            
+            <!-- 👇 极其关键：必须有这个 div 把按钮包起来，不能少！ 👇 -->
             <div class="contact-socials">
               <a href="https://space.bilibili.com/695724697" target="_blank" rel="noopener noreferrer" class="social-btn" title="Bilibili" aria-label="访问 Bilibili">
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
@@ -206,6 +208,8 @@
                 </svg>
               </a>
             </div>
+            <!-- 👆 包装盒子结束 👆 -->
+            
           </article>
         </div>
         

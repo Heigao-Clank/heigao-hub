@@ -511,16 +511,17 @@ body {
 
 /* 关于页面中的联系方式图标组 */
 .contact-socials {
-  display: flex;
-  flex-direction: row; /* 强制声明水平排列方向 */
-  gap: 0.8rem;
+  display: block; /* 终极修复：改用最纯粹的 block，让里面的按钮像文字一样自然横向流动 */
+  width: 100%;
   margin-top: 1rem;
-  flex-wrap: wrap;
 }
 
 .contact-socials .social-btn {
   width: 42px;
   height: 42px;
+  margin-right: 0.8rem;
+  margin-bottom: 0.8rem;
+  vertical-align: middle;
 }
 
 .back-btn {
@@ -615,21 +616,26 @@ body {
   width: 100%;
   border-top: 1px dashed var(--border);
   padding-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+  display: block; /* 主页底部图标同样改为 block 结合居中，免疫所有弹性盒错位问题 */
+  text-align: center;
 }
 
 .social-btn {
   width: 48px;
   height: 48px;
-  display: inline-flex; /* 修复点：强制设为内联弹性盒子，彻底杜绝按钮堆叠 */
+  display: inline-flex; 
   align-items: center;
   justify-content: center;
   border: 1px solid var(--text-muted);
   color: var(--text-dark);
   text-decoration: none;
   transition: all 0.2s ease;
+  vertical-align: middle; /* 确保与相邻元素完美对齐 */
+}
+
+/* 兼容主页图标边距 */
+.social-section .social-btn {
+  margin: 0 0.5rem 1rem 0.5rem; 
 }
 
 .social-btn:hover {
