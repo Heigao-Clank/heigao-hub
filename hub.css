@@ -805,7 +805,10 @@ body {
   max-height: 85vh;
   object-fit: contain;
   user-select: none;
+  -webkit-user-drag: none;
   cursor: default;
+  transform-origin: 0 0;
+  will-change: transform;
 }
 
 .lightbox-info {
