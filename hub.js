@@ -168,10 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!i18nData[lang]) lang = 'zh';
     currentLang = lang;
 
-    if (i18nData[currentLang]["title"]) {
-      document.title = i18nData[currentLang]["title"];
-    }
+    document.title = i18nData[currentLang]["title"] || document.title;
     document.documentElement.lang = currentLang;
+    localStorage.setItem('preferredLang', currentLang);
 
     DOM.i18nElements.forEach(el => {
       const key = el.getAttribute('data-i18n');
@@ -181,14 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     DOM.langBtns.forEach(btn => {
-      if (btn.getAttribute('data-lang') === currentLang) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
     });
-
-    localStorage.setItem('preferredLang', currentLang);
   }
 
   function initLanguage() {

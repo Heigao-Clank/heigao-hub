@@ -159,6 +159,7 @@ body {
   line-height: 1;
   letter-spacing: 0.1em;
   color: rgba(var(--primary-rgb), 0.08);
+  font-language-override: "ENG";
   text-shadow:
     1px 1px 0 rgba(var(--primary-rgb), 0.1),
     2px 2px 0 rgba(var(--primary-rgb), 0.08),
@@ -238,7 +239,7 @@ body {
   color: var(--text-muted);
   cursor: pointer;
   padding: 0.2rem 0;
-  transition: all 0.2s ease;
+  transition: color 0.2s, font-weight 0.2s;
   position: relative;
   white-space: nowrap;
 }
@@ -323,7 +324,7 @@ body {
   font-family: 'Jost', 'HarmonyOS Sans', sans-serif;
   font-weight: 700;
   border: 1px solid transparent;
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
 }
 
 .sidebar-link:hover, .sidebar-link.active {
@@ -601,7 +602,7 @@ body {
   color: var(--text-dark);
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .nav-link:hover {
