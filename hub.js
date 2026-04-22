@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "bio": "数字创作者 / UTAU / 视觉艺术",
       "nav_home": "主页",
       "nav_about": "关于 黑篙🌌",
+      "nav_gallery": "部分作品展示",
       "nav_history": "站点日志",
       "link_utau": "「熵尾音 クロ」 UTAU 展示页",
       "link_blog": "黑篙的博客",
@@ -49,7 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_c2": "2. 我菜的抠脚，还没有接稿的想法。",
       "about_c3": "3. 我菜的抠脚，还没有合作的想法。",
       "about_contact_desc": "可以通过以下平台找到我，或者查看我的更多动态：",
-      "back_home": "← 返回主页"
+      "back_home": "← 返回主页",
+      "utau_version": "当前版本：2026.4-Beta",
+      "gallery_title": "部分作品展示"
     },
     "en": {
       "name": "Heigao (黑篙)",
@@ -57,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "bio": "Digital Creator / UTAU / Art",
       "nav_home": "Home",
       "nav_about": "About Heigao🌌",
+      "nav_gallery": "Selected Works",
       "nav_history": "Site Log",
       "link_utau": "Shouo Kuro UTAU Voicebank",
       "link_blog": "Heigao's Blog",
@@ -78,7 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_c2": "2. I'm still a massive noob, so I'm not taking commissions right now.",
       "about_c3": "3. I'm still a massive noob, so I don't have any collaboration plans.",
       "about_contact_desc": "You can find me or check out my latest updates on these platforms:",
-      "back_home": "← Back to Home"
+      "back_home": "← Back to Home",
+      "utau_version": "Current version: 2026.4-Beta",
+      "gallery_title": "Selected Works"
     },
     "ja": {
       "name": "黒篙 Heigao",
@@ -86,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "bio": "デジタルクリエイター / UTAU / アート",
       "nav_home": "ホーム",
       "nav_about": "プロフィール🌌",
+      "nav_gallery": "作品ピックアップ",
       "nav_history": "更新履歴",
       "link_utau": "「熵尾音 クロ」 UTAU 配布所",
       "link_blog": "黒篙のブログ",
@@ -107,7 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
       "about_c2": "2. まだまだへっぽこなので、ご依頼はお受けしていません。",
       "about_c3": "3. まだまだへっぽこなので、コラボの予定もありません。",
       "about_contact_desc": "以下のプラットフォームで私を見つけるか、最新の活動を確認できます：",
-      "back_home": "← ホームに戻る"
+      "back_home": "← ホームに戻る",
+      "utau_version": "現在のバージョン：2026.4-Beta",
+      "gallery_title": "作品ピックアップ"
     }
   };
 
@@ -167,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     DOM.i18nElements.forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (i18nData[currentLang][key]) {
-        el.innerText = i18nData[currentLang][key];
+        el.textContent = i18nData[currentLang][key];
       }
     });
 
@@ -183,8 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initLanguage() {
+    const validLangs = ['zh', 'en', 'ja'];
     let targetLang = localStorage.getItem('preferredLang');
-    if (!targetLang) {
+    if (!validLangs.includes(targetLang)) {
       const sysLang = navigator.language.toLowerCase();
       if (sysLang.startsWith('zh')) targetLang = 'zh';
       else if (sysLang.startsWith('en')) targetLang = 'en';
@@ -200,6 +210,47 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (DOM.sidebarToggle) DOM.sidebarToggle.addEventListener('click', toggleSidebar);
   if (DOM.overlay) DOM.overlay.addEventListener('click', toggleSidebar);
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxDate = document.getElementById('lightbox-date');
+  const lightboxBackdrop = document.querySelector('.lightbox-backdrop');
+  const lightboxClose = document.querySelector('.lightbox-close');
+
+  function openLightbox(item) {
+    const img = item.querySelector('img');
+    if (!img) return;
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    const name = item.querySelector('.gallery-name');
+    const date = item.querySelector('.gallery-date');
+    if (lightboxTitle && name) lightboxTitle.textContent = name.textContent;
+    if (lightboxDate && date) lightboxDate.textContent = date.textContent;
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => openLightbox(item));
+  });
+
+  if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeLightbox);
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
 
   window.addEventListener('hashchange', () => {
     switchSection(window.location.hash);
@@ -217,7 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   
   if (DOM.yearElement) {
-    DOM.yearElement.innerText = new Date().getFullYear();
+    const year = new Date().getFullYear();
+    DOM.yearElement.textContent = year === 2026 ? '2026' : '2026–' + year;
   }
 
   initLanguage();

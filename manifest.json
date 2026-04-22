@@ -1,0 +1,16 @@
+{
+  "name": "黑篙 Heigao Hub",
+  "short_name": "Heigao Hub",
+  "description": "黑篙(Heigao)的个人数字门户",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#CBD3DC",
+  "theme_color": "#CBD3DC",
+  "icons": [
+    {
+      "src": "./assets/image/icon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
