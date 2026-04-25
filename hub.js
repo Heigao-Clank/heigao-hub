@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (defaultHome) defaultHome.style.display = 'block';
       sectionId = 'home';
     }
+    window.scrollTo(0, 0);
 
     DOM.sidebarLinks.forEach(link => {
       const href = link.getAttribute('href');
@@ -185,13 +186,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initLanguage() {
-    const validLangs = ['zh', 'en', 'ja'];
     let targetLang = localStorage.getItem('preferredLang');
-    if (!validLangs.includes(targetLang)) {
+    if (!i18nData[targetLang]) {
       const sysLang = navigator.language.toLowerCase();
-      if (sysLang.startsWith('zh')) targetLang = 'zh';
+      if (sysLang.startsWith('ja')) targetLang = 'ja';
       else if (sysLang.startsWith('en')) targetLang = 'en';
-      else if (sysLang.startsWith('ja')) targetLang = 'ja';
       else targetLang = 'zh';
     }
     setLanguage(targetLang);
@@ -212,8 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxBackdrop = document.querySelector('.lightbox-backdrop');
   const lightboxClose = document.querySelector('.lightbox-close');
 
-  var viewport = document.querySelector('meta[name="viewport"]');
-  var defaultViewport = viewport ? viewport.content : '';
+  const viewport = document.querySelector('meta[name="viewport"]');
+  const defaultViewport = viewport ? viewport.content : '';
 
   function lockViewport() {
     if (viewport) viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
@@ -221,6 +220,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function unlockViewport() {
     if (viewport) viewport.content = defaultViewport || 'width=device-width, initial-scale=1.0';
+  }
+
+  let lbScale = 1, lbTx = 0, lbTy = 0;
+  let dragStartTx, dragStartTy, lbDragging = false;
+  const zoomSlider = document.getElementById('zoomSlider');
+
+  function lbApply() {
+    lightboxImg.style.transform =
+      'translate3d(' + lbTx + 'px,' + lbTy + 'px,0) scale(' + lbScale + ')';
+  }
+
+  function lbReset() {
+    lbScale = 1; lbTx = 0; lbTy = 0;
+    lightboxImg.style.transform = '';
+    if (zoomSlider) zoomSlider.value = 100;
+  }
+
+  function lbSetScale(s) {
+    lbScale = Math.min(5, Math.max(1, s));
+    if (lbScale <= 1) { lbTx = 0; lbTy = 0; }
+    lbApply();
+    if (zoomSlider) zoomSlider.value = Math.round(lbScale * 100);
   }
 
   function openLightbox(item) {
@@ -236,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     lockViewport();
+    lbReset();
   }
 
   function closeLightbox() {
@@ -253,74 +275,44 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeLightbox);
   if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
 
-  // Lightbox 触摸手势：双指缩放 + 单指拖拽
-  (function() {
-    var scale = 1, tx = 0, ty = 0;
-    var startScale, startDist, startTx, startTy, startMidX, startMidY;
-    var dragging = false, pinching = false;
-
-    function applyTransform() {
-      lightboxImg.style.transform =
-        'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
-    }
-
-    function dist(a, b) {
-      var dx = a.clientX - b.clientX, dy = a.clientY - b.clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    function mid(a, b) {
-      return { x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 };
-    }
-
-    function resetState() {
-      scale = 1; tx = 0; ty = 0;
-      lightboxImg.style.transform = '';
-    }
-
-    lightbox.addEventListener('touchstart', function(e) {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        pinching = true; dragging = false;
-        startDist = dist(e.touches[0], e.touches[1]);
-        startScale = scale;
-        var m = mid(e.touches[0], e.touches[1]);
-        startMidX = m.x; startMidY = m.y;
-        startTx = tx; startTy = ty;
-      } else if (e.touches.length === 1 && scale > 1) {
-        dragging = true; pinching = false;
-        startTx = tx - e.touches[0].clientX;
-        startTy = ty - e.touches[0].clientY;
-      }
-    }, { passive: false });
-
-    lightbox.addEventListener('touchmove', function(e) {
-      if (pinching && e.touches.length === 2) {
-        e.preventDefault();
-        var d = dist(e.touches[0], e.touches[1]);
-        scale = Math.min(5, Math.max(1, startScale * d / startDist));
-        var m = mid(e.touches[0], e.touches[1]);
-        tx = startTx + (m.x - startMidX);
-        ty = startTy + (m.y - startMidY);
-        applyTransform();
-      } else if (dragging && e.touches.length === 1) {
-        e.preventDefault();
-        tx = e.touches[0].clientX + startTx;
-        ty = e.touches[0].clientY + startTy;
-        applyTransform();
-      }
-    }, { passive: false });
-
-    lightbox.addEventListener('touchend', function() {
-      pinching = false; dragging = false;
-      if (scale <= 1.05) {
-        resetState();
-      }
+  // 滑块缩放
+  if (zoomSlider) {
+    zoomSlider.addEventListener('input', function() {
+      lbSetScale(parseInt(this.value) / 100);
     });
+  }
 
-    var origOpen = openLightbox;
-    openLightbox = function(item) { origOpen(item); resetState(); };
-  })();
+  // +/- 按钮
+  document.querySelectorAll('.zoom-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const delta = this.getAttribute('data-action') === 'in' ? 0.25 : -0.25;
+      lbSetScale(lbScale + delta);
+    });
+  });
+
+  // 单指拖拽（放大后）
+  lightbox.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1 && lbScale > 1) {
+      const t = e.target;
+      if (t.closest('.lightbox-zoom') || t.closest('.lightbox-close')) return;
+      lbDragging = true;
+      dragStartTx = lbTx - e.touches[0].clientX;
+      dragStartTy = lbTy - e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  lightbox.addEventListener('touchmove', function(e) {
+    if (lbDragging && e.touches.length === 1 && !e.target.closest('.lightbox-zoom')) {
+      lbTx = e.touches[0].clientX + dragStartTx;
+      lbTy = e.touches[0].clientY + dragStartTy;
+      lbApply();
+    }
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', function() {
+    lbDragging = false;
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
       closeLightbox();
@@ -339,7 +331,60 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // 5. 执行初始渲染
+  // 5. 亮暗模式切换
+  // ==========================================
+
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const darkBgColor = '#252C3A';
+  const lightBgColor = '#CBD3DC';
+
+  function getTheme() {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    if (themeIcon) {
+      themeIcon.setAttribute('href', theme === 'dark' ? '#icon-sun' : '#icon-moon');
+    }
+    if (themeMeta) {
+      themeMeta.setAttribute('content', theme === 'dark' ? darkBgColor : lightBgColor);
+    }
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-label', theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式');
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', toggleTheme);
+  }
+
+  if (themeIcon) {
+    themeIcon.setAttribute('href', getTheme() === 'dark' ? '#icon-sun' : '#icon-moon');
+  }
+  if (themeMeta) {
+    themeMeta.setAttribute('content', getTheme() === 'dark' ? darkBgColor : lightBgColor);
+  }
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-label', getTheme() === 'dark' ? '切换到亮色模式' : '切换到暗色模式');
+  }
+
+  const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  systemDarkQuery.addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      setTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+
+  // ==========================================
+  // 6. 执行初始渲染
   // ==========================================
   
   if (DOM.yearElement) {

@@ -21,7 +21,8 @@ def scan():
                         0x4E00 <= cp <= 0x9FFF or 0x3400 <= cp <= 0x4DBF or
                         0xF900 <= cp <= 0xFAFF or 0xFF00 <= cp <= 0xFFEF):
                         chars.add(ch)
-            except: continue
+                except (UnicodeDecodeError, OSError):
+                    continue
     return chars
 
 def sub(src, dst, chars):

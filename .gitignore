@@ -1,0 +1,13 @@
+# Font generation artifacts
+assets/font/_harmonyos_faces.css
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

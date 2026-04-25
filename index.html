@@ -2,10 +2,22 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>黑篙 Heigao | 个人导航站</title>
   <meta name="description" content="黑篙(Heigao)的个人数字门户。包含 UTAU 音源、创作日志及社交媒体链接。">
   <meta name="theme-color" content="#CBD3DC">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- 防止亮暗切换时的背景闪烁 (必须在任何 CSS/IMG 之前执行) -->
+  <script>
+    (function(){
+      var t=localStorage.getItem('theme');
+      if(!t||(t!=='dark'&&t!=='light')){
+        t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+      }
+      document.documentElement.setAttribute('data-theme',t);
+    })();
+  </script>
 
   <meta property="og:title" content="黑篙 Heigao | 个人导航站">
   <meta property="og:description" content="黑篙(Heigao)的个人数字门户。包含 UTAU 音源、创作日志及社交媒体链接。">
@@ -23,6 +35,7 @@
   <!-- 本地字体预加载 (Jost 首屏必用) -->
   <link rel="preload" href="./assets/font/Jost-Medium.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./assets/font/Jost-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/font/HarmonyOS_SC_400.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- 外部域名 DNS 预解析 -->
   <link rel="dns-prefetch" href="https://space.bilibili.com">
@@ -55,6 +68,20 @@
     </symbol>
     <symbol id="icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
       <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="4"/>
+      <line x1="12" y1="20" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+      <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="4" y2="12"/>
+      <line x1="20" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+      <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
     </symbol>
   </svg>
 
@@ -196,7 +223,7 @@
           <!-- 画作卡片模板：复制此块添加新作品 -->
           <div class="gallery-item">
             <div class="gallery-img-wrap">
-              <img src="./assets/art/heigao-birthday-2024.webp"             alt="生日贺图" loading="lazy">
+              <img src="./assets/art/heigao-birthday-2024.webp" alt="生日贺图" width="5104" height="2483" loading="lazy">
             </div>
             <div class="gallery-caption">
               <span class="gallery-name">生日贺图</span>
@@ -207,7 +234,7 @@
 
           <div class="gallery-item">
             <div class="gallery-img-wrap">
-              <img src="./assets/art/clank-2025.webp" alt="铿锵" loading="lazy">
+              <img src="./assets/art/clank-2025.webp" alt="铿锵" width="6548" height="5680" loading="lazy">
             </div>
             <div class="gallery-caption">
               <span class="gallery-name">铿锵Clank</span>
@@ -287,6 +314,11 @@
     </main>
   </div>
 
+  <!-- 亮暗模式切换按钮 -->
+  <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式" title="切换亮色/暗色模式">
+    <svg width="20" height="20" aria-hidden="true"><use id="themeIcon" href="#icon-moon"/></svg>
+  </button>
+
   <!-- Lightbox 弹层 (放在 body 直接子级，不受 stacking context 限制) -->
   <div class="lightbox" id="lightbox" role="dialog" aria-label="图片预览" aria-hidden="true">
     <div class="lightbox-backdrop"></div>
@@ -296,6 +328,11 @@
       <span class="lightbox-date" id="lightbox-date"></span>
     </div>
     <button class="lightbox-close" aria-label="关闭预览">&times;</button>
+    <div class="lightbox-zoom">
+      <button class="zoom-btn" data-action="out" aria-label="缩小">&minus;</button>
+      <input type="range" class="zoom-slider" id="zoomSlider" min="100" max="500" value="100" step="10">
+      <button class="zoom-btn" data-action="in" aria-label="放大">&plus;</button>
+    </div>
   </div>
 
   <!-- 引入脚本 -->
