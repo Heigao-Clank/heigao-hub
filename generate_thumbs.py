@@ -1,4 +1,4 @@
-"""批量生成画廊缩略图 (宽 600px, WebP quality 82).
+"""批量生成画廊缩略图 (宽 1200px, WebP quality 82).
 
 用法: python generate_thumbs.py
 跳过已存在同名 -thumb.webp 的文件。
@@ -23,7 +23,7 @@ def main():
             continue
 
         img = Image.open(src)
-        img.thumbnail((600, 99999), Image.LANCZOS)
+        img.thumbnail((1200, 99999), Image.LANCZOS)
         img.save(dst, "WEBP", quality=82)
         old = os.path.getsize(src) / 1024
         new = os.path.getsize(dst) / 1024
