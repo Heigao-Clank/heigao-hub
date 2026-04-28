@@ -21,8 +21,8 @@ def scan():
                         0x4E00 <= cp <= 0x9FFF or 0x3400 <= cp <= 0x4DBF or
                         0xF900 <= cp <= 0xFAFF or 0xFF00 <= cp <= 0xFFEF):
                         chars.add(ch)
-                except (UnicodeDecodeError, OSError):
-                    continue
+            except (UnicodeDecodeError, OSError):
+                continue
     return chars
 
 def sub(src, dst, chars):
@@ -54,8 +54,8 @@ def main():
     print(f"找到 {len(chars)} 个 CJK/假名字符", flush=True)
 
     mapping = {
-        "HarmonyOS_Sans_SC_Regular.woff2": [400, 500],
-        "HarmonyOS_Sans_SC_Bold.woff2": [700],
+        "HarmonyOS_Sans_SC_Regular.ttf": [400, 500],
+        "HarmonyOS_Sans_SC_Bold.ttf": [700],
     }
 
     total = 0

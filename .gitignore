@@ -1,3 +1,7 @@
+# Font source files (keep locally, only push subsetted WOFF2)
+assets/font/*.ttf
+assets/font/*.otf
+
 # Font generation artifacts
 assets/font/_harmonyos_faces.css
 

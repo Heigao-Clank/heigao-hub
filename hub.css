@@ -788,24 +788,7 @@ body {
 
 /* ---------- 暗色模式 ---------- */
 
-/* 无 JS 回退：仅当 data-theme 未设置时跟随系统 */
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme]) {
-    --primary: #78A4C8;
-    --primary-rgb: 120, 164, 200;
-    --primary-dark: #5480A4;
-    --bg-top: #252C3A;
-    --bg-bottom: #232A38;
-    --text-dark: #D8DEE8;
-    --text-light: #AAB4C2;
-    --text-muted: #788898;
-    --border: rgba(180, 210, 210, 0.14);
-    --glass-bg: rgba(255, 255, 255, 0.28);
-    background: linear-gradient(180deg, #252C3A 0%, #232A38 100%);
-  }
-}
-
-/* JS 驱动的手动暗色模式 */
+/* 暗色模式变量统一入口（JS 驱动 + 无 JS 系统回退共用同一套值） */
 html[data-theme="dark"] {
   --primary: #78A4C8;
   --primary-rgb: 120, 164, 200;
@@ -817,6 +800,23 @@ html[data-theme="dark"] {
   --text-muted: #788898;
   --border: rgba(180, 210, 210, 0.08);
   --glass-bg: rgba(255, 255, 255, 0.18);
+}
+
+/* 无 JS 回退：系统偏好暗色时复用同一套变量 */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --primary: #78A4C8;
+    --primary-rgb: 120, 164, 200;
+    --primary-dark: #5480A4;
+    --bg-top: #252C3A;
+    --bg-bottom: #232A38;
+    --text-dark: #D8DEE8;
+    --text-light: #AAB4C2;
+    --text-muted: #788898;
+    --border: rgba(180, 210, 210, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.18);
+    background: linear-gradient(180deg, #252C3A 0%, #232A38 100%);
+  }
 }
 
 html[data-theme="dark"] body {

@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openLightbox(item) {
     const img = item.querySelector('img');
     if (!img) return;
-    lightboxImg.src = img.src;
+    lightboxImg.src = img.dataset.full || img.src;
     lightboxImg.alt = img.alt;
     const name = item.querySelector('.gallery-name');
     const date = item.querySelector('.gallery-date');
@@ -346,7 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
     if (themeIcon) {
       themeIcon.setAttribute('href', theme === 'dark' ? '#icon-sun' : '#icon-moon');
     }
@@ -359,22 +358,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function toggleTheme() {
-    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    var theme = getTheme() === 'dark' ? 'light' : 'dark';
+    setTheme(theme);
+    localStorage.setItem('theme', theme);
   }
 
   if (themeToggle) {
     themeToggle.addEventListener('click', toggleTheme);
   }
 
-  if (themeIcon) {
-    themeIcon.setAttribute('href', getTheme() === 'dark' ? '#icon-sun' : '#icon-moon');
-  }
-  if (themeMeta) {
-    themeMeta.setAttribute('content', getTheme() === 'dark' ? darkBgColor : lightBgColor);
-  }
-  if (themeToggle) {
-    themeToggle.setAttribute('aria-label', getTheme() === 'dark' ? '切换到亮色模式' : '切换到暗色模式');
-  }
+  setTheme(getTheme());
 
   const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
   systemDarkQuery.addEventListener('change', (e) => {

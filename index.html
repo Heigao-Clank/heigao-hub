@@ -142,6 +142,10 @@
       <div class="sidebar-history">
         <!-- 最新内容在最上面 -->
         <div class="history-item">
+          <span class="history-date">2026.04.25</span>
+          <span class="history-text">新增亮暗色模式切换：支持手动切换与跟随系统偏好。</span>
+        </div>
+        <div class="history-item">
           <span class="history-date">2026.04.22</span>
           <span class="history-text">优化语言切换动画同步问题，新增部分作品展示。</span>
         </div>
@@ -223,7 +227,7 @@
           <!-- 画作卡片模板：复制此块添加新作品 -->
           <div class="gallery-item">
             <div class="gallery-img-wrap">
-              <img src="./assets/art/heigao-birthday-2024.webp" alt="生日贺图" width="5104" height="2483" loading="lazy">
+              <img src="./assets/art/heigao-birthday-2024-thumb.webp" data-full="./assets/art/heigao-birthday-2024.webp" alt="生日贺图" width="600" height="292" loading="lazy">
             </div>
             <div class="gallery-caption">
               <span class="gallery-name">生日贺图</span>
@@ -234,7 +238,17 @@
 
           <div class="gallery-item">
             <div class="gallery-img-wrap">
-              <img src="./assets/art/clank-2025.webp" alt="铿锵" width="6548" height="5680" loading="lazy">
+              <img src="./assets/art/ar-to-mr-2025-thumb.webp" data-full="./assets/art/ar-to-mr-2025.webp" alt="AR → MR" width="600" height="473" loading="lazy">
+            </div>
+            <div class="gallery-caption">
+              <span class="gallery-name">AR → MR</span>
+              <span class="gallery-date">2025.04.01</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-img-wrap">
+              <img src="./assets/art/clank-2025-thumb.webp" data-full="./assets/art/clank-2025.webp" alt="铿锵" width="600" height="520" loading="lazy">
             </div>
             <div class="gallery-caption">
               <span class="gallery-name">铿锵Clank</span>
@@ -269,7 +283,6 @@
             </ul>
           </article>
 
-          <!-- 移除了 full-width，让它和联系方式卡片并排显示 -->
           <article class="about-card">
             <h3 data-i18n="card3_title">✦ 约稿与合作 (Commission)</h3>
             <p data-i18n="about_c1">1. 我菜的抠脚，还没有接稿的想法。</p>
@@ -308,7 +321,7 @@
 
       <!-- 底部版权 -->
       <footer class="footer">
-        <p>&copy; <span id="current-year"></span> Heigao.<br>Handcrafted with ☕ & pixels.</p>
+        <p>&copy; <span id="current-year"></span> Heigao.<br>Handcrafted with 奶茶 & LLM.</p>
       </footer>
 
     </main>
