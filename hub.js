@@ -163,6 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (DOM.sidebar && DOM.sidebar.classList.contains('open')) {
       toggleSidebar();
     }
+
+    if (document.activeElement) document.activeElement.blur();
   }
 
   function setLanguage(lang) {
