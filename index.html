@@ -26,16 +26,21 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="黑篙 Heigao | 个人导航站">
-  <meta name="twitter:description" content="黑篙(Heigao)的个人数字门户。包含 UTAU 音源、创作日志及社交媒体链接。">
-  <meta name="twitter:image" content="https://heigao.me/assets/image/avatar.webp">
-  
-  <!-- 设置网站图标 (Favicon) -->
+  <meta name="twitter:description" content="黑篙(Heigao)的个人数字门户。">
+
   <link rel="icon" href="./assets/image/icon.png" type="image/png">
-  
-  <!-- 本地字体预加载 (Jost 首屏必用) -->
+
+  <link rel="stylesheet" href="./hub.css">
+  <noscript><style>.content-section{display:block!important}</style></noscript>
+
+  <!-- 本地字体预加载 (在 CSS @font-face 之后，消除 unused preload 警告) -->
   <link rel="preload" href="./assets/font/Jost-Medium.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./assets/font/Jost-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/font/Jost-Black.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./assets/font/HarmonyOS_SC_400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/font/HarmonyOS_SC_500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/font/HarmonyOS_SC_700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/font/SourceCodePro-Semibold.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- 外部域名 DNS 预解析 -->
   <link rel="dns-prefetch" href="https://space.bilibili.com">
@@ -45,48 +50,51 @@
   <!-- PWA 清单 -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- 引入样式表 (版本升级以清除缓存) -->
-  <link rel="stylesheet" href="hub.css?v=20.0">
+  <link rel="stylesheet" href="./hub.css">
+  <noscript><style>.content-section{display:block!important}</style></noscript>
 </head>
 <body>
 
-  <!-- SVG 图标精灵 (不可见) -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-    <symbol id="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-      <polyline points="12 5 19 12 12 19"></polyline>
-    </symbol>
-    <symbol id="icon-bilibili" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-      <rect x="2" y="7" width="20" height="15"></rect>
-      <polyline points="17 2 12 7 7 2"></polyline>
-      <line x1="9" y1="11" x2="9" y2="14"></line>
-      <line x1="15" y1="11" x2="15" y2="14"></line>
+  <!-- SVG Sprite 注入 -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="icon-bilibili" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.124.947.373.285.249.427.551.427.907 0 .32-.125.622-.374.906l-1.226 1.147zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773H5.333zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.249-.56.373-.933.373s-.684-.124-.933-.373c-.25-.249-.383-.569-.4-.96v-1.173c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.249-.56.373-.933.373s-.684-.124-.933-.373c-.25-.249-.383-.569-.4-.96v-1.173c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z" />
     </symbol>
     <symbol id="icon-twitter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
       <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
       <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
     </symbol>
-    <symbol id="icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+    <symbol id="icon-github" viewBox="0 0 24 24" fill="currentColor">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
     </symbol>
-    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-      <circle cx="12" cy="12" r="5"/>
-      <line x1="12" y1="1" x2="12" y2="4"/>
-      <line x1="12" y1="20" x2="12" y2="23"/>
-      <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
-      <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
-      <line x1="1" y1="12" x2="4" y2="12"/>
-      <line x1="20" y1="12" x2="23" y2="12"/>
-      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
-      <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
     </symbol>
-    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </symbol>
+    <symbol id="icon-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
     </symbol>
   </svg>
 
-  <!-- 动态背景 -->
-  <div class="bg-deco" aria-hidden="true" lang="en">
+  <!-- 动态背景装饰：桌面端 Canvas 粒子 -->
+  <div class="bg-deco bg-deco-canvas" aria-hidden="true">
+    <canvas id="bg-canvas"></canvas>
+  </div>
+
+  <!-- 动态背景装饰：移动端 CSS 滚动文字 -->
+  <div class="bg-deco bg-deco-fallback" aria-hidden="true" lang="en">
     <div class="bg-deco-wrapper">
       <div class="bg-deco-row scroll-left">
         <div class="bg-deco-text">HEIGAO HUB ✦ HEIGAO HUB ✦ </div>
@@ -103,214 +111,251 @@
     </div>
   </div>
 
-  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Menu" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-
-  <!-- 顶栏 -->
-  <header class="topbar">
-    <a href="#home" class="topbar-logo" aria-label="返回首页">HEIGAO</a>
-    <div class="topbar-right">
-      <div class="lang-switcher" aria-label="语言切换">
-        <button class="lang-btn active" data-lang="zh" aria-label="切换为中文">ZH</button>
-        <button class="lang-btn" data-lang="en" aria-label="Switch to English">EN</button>
-        <button class="lang-btn" data-lang="ja" aria-label="日本語に切り替え">JA</button>
-      </div>
-      
-      <div class="sys-status" aria-label="系统状态">
-        <span class="status-dot"></span>
-        <span class="status-text">SYS.ONLINE</span>
-      </div>
-    </div>
-  </header>
-
+  <!-- 移动端侧边栏遮罩 -->
   <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
-  <!-- 侧边栏 -->
+  <!-- 侧边栏 (导航 + 语言切换) -->
   <aside class="sidebar" id="sidebar">
-    <nav class="sidebar-nav" aria-label="侧边栏导航">
-      <a href="#home" class="sidebar-link active" data-i18n="nav_home">主页</a>
-      <a href="#gallery" class="sidebar-link" data-i18n="nav_gallery">作品展示</a>
-      <a href="#about" class="sidebar-link" data-i18n="nav_about">关于 黑篙🌌</a>
+    <div class="sidebar-header">
+      <h2 class="sidebar-brand">HEIGAO</h2>
+    </div>
+    
+    <nav class="sidebar-nav" aria-label="主要导航">
+      <ul class="nav-list">
+        <li><a href="#home" class="sidebar-link active" data-target="section-home" data-i18n="nav_home">主页</a></li>
+        <li><a href="#about" class="sidebar-link" data-target="section-about" data-i18n="nav_about">关于 黑篙🌌</a></li>
+        <li><a href="#gallery" class="sidebar-link" data-target="section-gallery" data-i18n="nav_gallery">部分作品展示</a></li>
+        <li><a href="#history" class="sidebar-link" data-target="section-history" data-i18n="nav_history">站点日志</a></li>
+      </ul>
     </nav>
 
-    <!-- 站点历史记录区域 -->
-    <div class="sidebar-history-wrapper">
-      <h4 class="sidebar-subheading" data-i18n="nav_history">站点日志</h4>
-      <div class="sidebar-history">
-        <!-- 最新内容在最上面 -->
-        <div class="history-item">
-          <span class="history-date">2026.04.25</span>
-          <span class="history-text">新增亮暗色模式切换：支持手动切换与跟随系统偏好。</span>
-        </div>
-        <div class="history-item">
-          <span class="history-date">2026.04.22</span>
-          <span class="history-text">优化语言切换动画同步问题，新增部分作品展示。</span>
-        </div>
-        <div class="history-item">
-          <span class="history-date">2026.04.19</span>
-          <span class="history-text">全站字体本地化：中日文采用鸿蒙字体 (HarmonyOS Sans SC)，西文字符采用 Jost，代码与标签等采用 Source Code Pro 渲染。</span>
-        </div>
-        <div class="history-item">
-          <span class="history-date">2026.04.18</span>
-          <span class="history-text">在主域名创建了黑篙的个人导航站。</span>
-        </div>
+    <div class="sidebar-footer">
+      <div class="lang-switch" aria-label="语言切换">
+        <button type="button" class="lang-btn active" data-lang="zh">中</button>
+        <button type="button" class="lang-btn" data-lang="ja">日</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
     </div>
   </aside>
 
   <!-- 主内容区 -->
-  <div class="main-content-wrapper">
-    <main class="main-container">
-      
-      <!-- ========================================
-           1. 主页 Section (Home)
-           ======================================== -->
-      <section id="section-home" class="content-section">
-        <div class="profile-section">
-          <div class="avatar">
-            <img src="./assets/image/avatar.webp" alt="黑篙头像" width="100" height="100">
+  <div class="main-wrapper">
+    <!-- 移动端顶部栏 -->
+    <header class="topbar">
+      <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="打开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <h1 class="topbar-title">HEIGAO HUB</h1>
+    </header>
+
+    <main class="content-area">
+
+      <!-- ==========================================
+           1. 首页 (Home)
+           ========================================== -->
+      <section id="section-home" class="content-section active">
+        <div class="profile-card">
+          <div class="avatar-container">
+            <img src="./assets/image/avatar.webp" alt="Heigao Avatar" class="avatar-img" width="120" height="120">
           </div>
-          <h1 class="name" data-i18n="name">黑篙 Heigao</h1>
-          <p class="bio" data-i18n="bio">数字创作者 / UTAU / 视觉艺术</p>
+          <div class="profile-info">
+            <h1 class="profile-name" data-i18n="name">黑篙 Heigao</h1>
+            <p class="profile-bio" data-i18n="bio">数字创作者 / UTAU / 视觉艺术</p>
+            
+            <!-- 社交媒体链接块 -->
+            <div class="social-links">
+              <a href="https://space.bilibili.com/695724697" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Bilibili">
+                <svg width="20" height="20" aria-hidden="true"><use href="#icon-bilibili"/></svg>
+                <span>Bilibili</span>
+              </a>
+              <a href="https://twitter.com/heigao_tickle" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Twitter">
+                <svg width="20" height="20" aria-hidden="true"><use href="#icon-twitter"/></svg>
+                <span>Twitter</span>
+              </a>
+              <a href="https://github.com/Heigao-Clank" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub">
+                <svg width="20" height="20" aria-hidden="true"><use href="#icon-github"/></svg>
+                <span>GitHub</span>
+              </a>
+            </div>
+
+            <!-- UTAU 外链入口 -->
+            <div class="feature-link-wrapper">
+              <a href="https://kuro-utau.heigao.me" target="_blank" rel="noopener noreferrer" class="feature-link">
+                <span data-i18n="link_utau">「熵尾音 咬青」 UTAU 展示页</span>
+                <svg width="16" height="16" aria-hidden="true"><use href="#icon-external"/></svg>
+              </a>
+            </div>
+
+          </div>
         </div>
+      </section>
 
-        <nav class="link-list" aria-label="个人项目链接">
-          <a href="https://blog.heigao.me" class="nav-link">
-            <div class="nav-link-content">
-              <span data-i18n="link_blog">黑篙的博客</span>
-              <span class="badge" data-i18n="badge_wip">未创建</span>
+      <!-- ==========================================
+           2. 关于 (About)
+           ========================================== -->
+      <section id="section-about" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="nav_about">关于 黑篙🌌</h2>
+          <div class="title-line"></div>
+        </div>
+        <div class="content-block">
+          <article class="prose">
+            <p data-i18n="about_p1">你好，我是黑篙 (Heigao)。</p>
+            <p data-i18n="about_p2">目前专注于「熵尾音 咬青」的音源开发与完善，同时也在学习更多你所能想到的各种事物。</p>
+            <p data-i18n="about_p3">我相信，即便是在算法推荐的时代，能在网络上拥有一个独立于社交媒体、属于自己的空间，依然是一件浪漫的事。</p>
+            
+            <div class="skills-box">
+              <h3 data-i18n="card2_title">✦ 工具 & 工作流</h3>
+              <div class="tags">
+                <span class="tag">UTAU / OpenUtau</span>
+                <span class="tag">CSP</span>
+                <span class="tag">Adobe 系列</span>
+                <span class="tag">Logic Pro</span>
+                <span class="tag">VS Code</span>
+                <span class="tag">OpenCode</span>
+              </div>
+              <p class="skills-meta"><span data-i18n="about_lang">沟通语言</span>: <span data-i18n="lang_list">中文 / English / 日本語(稍微)</span></p>
+              <p class="skills-meta"><span data-i18n="about_status">当前状态</span>: <span data-i18n="status_text">缓慢填坑中</span></p>
             </div>
-            <div class="nav-link-icon" aria-hidden="true">
-              <svg width="20" height="20"><use href="#icon-arrow"/></svg>
-            </div>
-          </a>
+          </article>
+        </div>
+      </section>
 
-          <a href="https://kuro-utau.heigao.me" class="nav-link">
-            <div class="nav-link-content">
-              <div>
-                <span data-i18n="link_utau">「熵尾音 クロ」 UTAU 展示页</span>
-                <span class="nav-link-sub" data-i18n="utau_version">当前版本：2026.4-Beta</span>
+      <!-- ==========================================
+           3. 作品展示 (Gallery)
+           ========================================== -->
+      <section id="section-gallery" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="nav_gallery">部分作品展示</h2>
+          <div class="title-line"></div>
+        </div>
+        
+        <div class="gallery-timeline">
+
+          <!-- ── 2025 ── -->
+          <div class="gallery-year-section">
+            <div class="gallery-year-heading">
+              <span class="gallery-year-dot"></span>
+              <span class="gallery-year-label">2025</span>
+            </div>
+            <div class="gallery-grid">
+              <div class="gallery-item" tabindex="0" role="button" aria-label="查看图片: AR → MR">
+                <img src="./assets/art/ar-to-mr-2025-thumb.webp" 
+                     data-full="./assets/art/ar-to-mr-2025.webp" 
+                     alt="AR → MR" 
+                     loading="lazy" 
+                     class="gallery-img">
+                <div class="gallery-overlay">
+                  <span class="gallery-name">AR → MR</span>
+                  <span class="gallery-date">2025.04.01</span>
+                </div>
+              </div>
+
+              <div class="gallery-item" tabindex="0" role="button" aria-label="查看图片: 铿锵Clank">
+                <img src="./assets/art/clank-2025-thumb.webp" 
+                     data-full="./assets/art/clank-2025.webp" 
+                     alt="铿锵Clank" 
+                     loading="lazy" 
+                     class="gallery-img">
+                <div class="gallery-overlay">
+                  <span class="gallery-name">铿锵Clank</span>
+                  <span class="gallery-date">2025.08.26</span>
+                </div>
               </div>
             </div>
-            <div class="nav-link-icon" aria-hidden="true">
-              <svg width="20" height="20"><use href="#icon-arrow"/></svg>
-            </div>
-          </a>
-        </nav>
-
-        <nav class="social-section" aria-label="社交媒体链接">
-          <a href="https://space.bilibili.com/695724697" target="_blank" rel="noopener noreferrer" class="social-btn" title="Bilibili" aria-label="访问 Bilibili">
-            <svg aria-hidden="true" width="22" height="22"><use href="#icon-bilibili"/></svg>
-          </a>
-          
-          <a href="https://twitter.com/heigao_tickle" target="_blank" rel="noopener noreferrer" class="social-btn" title="Twitter / X" aria-label="访问 Twitter">
-            <svg aria-hidden="true" width="20" height="20"><use href="#icon-twitter"/></svg>
-          </a>
-
-          <a href="https://github.com/Heigao-Clank" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub" aria-label="访问 GitHub">
-            <svg aria-hidden="true" width="20" height="20"><use href="#icon-github"/></svg>
-          </a>
-        </nav>
-      </section>
-
-      <!-- ========================================
-           2. 作品展示 Section (Gallery)
-           ======================================== -->
-      <section id="section-gallery" class="content-section" style="display: none;">
-        <h1 class="name about-title" data-i18n="gallery_title">作品展示</h1>
-
-        <div class="gallery-grid">
-
-          <!-- 画作卡片模板：复制此块添加新作品 -->
-          <div class="gallery-item">
-            <div class="gallery-img-wrap">
-              <img src="./assets/art/heigao-birthday-2024-thumb.webp" data-full="./assets/art/heigao-birthday-2024.webp" alt="生日贺图" width="1200" height="584" loading="lazy">
-            </div>
-            <div class="gallery-caption">
-              <span class="gallery-name">生日贺图</span>
-              <span class="gallery-date">2024.07.05</span>
-            </div>
-          </div>
-          <!-- 模板结束 -->
-
-          <div class="gallery-item">
-            <div class="gallery-img-wrap">
-              <img src="./assets/art/ar-to-mr-2025-thumb.webp" data-full="./assets/art/ar-to-mr-2025.webp" alt="AR → MR" width="1200" height="947" loading="lazy">
-            </div>
-            <div class="gallery-caption">
-              <span class="gallery-name">AR → MR</span>
-              <span class="gallery-date">2025.04.01</span>
-            </div>
           </div>
 
-          <div class="gallery-item">
-            <div class="gallery-img-wrap">
-              <img src="./assets/art/clank-2025-thumb.webp" data-full="./assets/art/clank-2025.webp" alt="铿锵" width="1200" height="1041" loading="lazy">
+          <!-- ── 2024 ── -->
+          <div class="gallery-year-section">
+            <div class="gallery-year-heading">
+              <span class="gallery-year-dot"></span>
+              <span class="gallery-year-label">2024</span>
             </div>
-            <div class="gallery-caption">
-              <span class="gallery-name">铿锵Clank</span>
-              <span class="gallery-date">2025.08.26</span>
+            <div class="gallery-grid">
+              <div class="gallery-item" tabindex="0" role="button" aria-label="查看图片: 生日贺图">
+                <img src="./assets/art/heigao-birthday-2024-thumb.webp" 
+                     data-full="./assets/art/heigao-birthday-2024.webp" 
+                     alt="生日贺图" 
+                     loading="lazy" 
+                     class="gallery-img">
+                <div class="gallery-overlay">
+                  <span class="gallery-name">生日贺图</span>
+                  <span class="gallery-date">2024.07.05</span>
+                </div>
+              </div>
             </div>
           </div>
 
         </div>
-
-        <div class="back-btn-wrapper">
-          <a href="#home" class="back-btn" data-i18n="back_home">← 返回主页</a>
-        </div>
       </section>
 
-      <!-- 底部版权 -->
-      <section id="section-about" class="content-section" style="display: none;">
-        <h1 class="name about-title" data-i18n="about_title">关于我</h1>
+      <!-- ==========================================
+           4. 站点日志 (History)
+           ========================================== -->
+      <section id="section-history" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="nav_history">站点日志</h2>
+          <div class="title-line"></div>
+        </div>
         
-        <div class="about-grid">
-          <article class="about-card">
-            <h3 data-i18n="card1_title">✦ 个人简介</h3>
-            <p data-i18n="about_p1">你好，我是黑篙 (Heigao)。无形无意。</p>
-            <p data-i18n="about_p2">目前专注于「熵尾音 クロ」的音源开发与完善，同时偶尔掉落一些视觉艺术与设计相关的随笔创作。</p>
-          </article>
+        <div class="timeline-container">
+          <article class="timeline">
 
-          <article class="about-card">
-            <h3 data-i18n="card2_title">✦ 技能树</h3>
-            <ul class="skill-list">
-              <li>> <span data-i18n="about_tools">常用装备</span>: <span data-i18n="tools_list">CSP / Adobe系列 / Logic Pro / 微软大战代码 / OpenCode</span></li>
-              <li>> <span data-i18n="about_lang">沟通语言</span>: <span data-i18n="lang_list">中文 / English / 日本語(稍微)</span></li>
-              <li>> <span data-i18n="about_status">当前状态</span>: <span data-i18n="status_text">缓慢填坑中</span></li>
-            </ul>
-          </article>
-
-          <article class="about-card">
-            <h3 data-i18n="card3_title">✦ 约稿与合作 (Commission)</h3>
-            <p data-i18n="about_c1">1. 我菜的抠脚，还没有接稿的想法。</p>
-            <p data-i18n="about_c2">2. 我菜的抠脚，还没有接稿的想法。</p>
-            <p data-i18n="about_c3">3. 我菜的抠脚，还没有合作的想法。</p>
-          </article>
-
-          <!-- 新增的联系方式卡片 -->
-          <article class="about-card">
-            <h3 data-i18n="card4_title">✦ 联系与关注 (Contact)</h3>
-            <p data-i18n="about_contact_desc">可以通过以下平台找到我，或者查看我的更多动态：</p>
-            
-            <!-- 👇 极其关键：必须有这个 div 把按钮包起来，不能少！ 👇 -->
-            <div class="contact-socials">
-              <a href="https://space.bilibili.com/695724697" target="_blank" rel="noopener noreferrer" class="social-btn" title="Bilibili" aria-label="访问 Bilibili">
-                <svg aria-hidden="true" width="20" height="20"><use href="#icon-bilibili"/></svg>
-              </a>
-              
-              <a href="https://twitter.com/heigao_tickle" target="_blank" rel="noopener noreferrer" class="social-btn" title="Twitter / X" aria-label="访问 Twitter">
-                <svg aria-hidden="true" width="20" height="20"><use href="#icon-twitter"/></svg>
-              </a>
-
-              <a href="https://github.com/Heigao-Clank" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub" aria-label="访问 GitHub">
-                <svg aria-hidden="true" width="20" height="20"><use href="#icon-github"/></svg>
-              </a>
+            <div class="timeline-item-wrapper">
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-date">2026.05.03</div>
+                  <h3 class="timeline-heading">站点全面重构</h3>
+                  <p class="timeline-text">视觉层迁移至 Canvas 粒子背景，移动端改用 CSS 滚动文字。修复粒子循环中断、毛玻璃延迟、层叠错乱等多项 Bug，关于页改为单卡片排版，画廊新增年份分区时间线。</p>
+                </div>
+              </div>
             </div>
-            <!-- 👆 包装盒子结束 👆 -->
-            
+
+            <div class="timeline-item-wrapper">
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-date">2026.04.25</div>
+                  <h3 class="timeline-heading">新增亮暗色模式切换</h3>
+                  <p class="timeline-text">支持手动切换与跟随系统偏好。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="timeline-item-wrapper">
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-date">2026.04.22</div>
+                  <h3 class="timeline-heading">优化语言切换与作品展示</h3>
+                  <p class="timeline-text">优化语言切换动画同步问题，新增部分作品展示。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="timeline-item-wrapper">
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-date">2026.04.19</div>
+                  <h3 class="timeline-heading">全站字体本地化</h3>
+                  <p class="timeline-text">中日文采用鸿蒙字体 (HarmonyOS Sans SC)，西文字符采用 Jost，代码与标签等采用 Source Code Pro 渲染。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="timeline-item-wrapper">
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-date">2026.04.18</div>
+                  <h3 class="timeline-heading">Heigao.me 上线</h3>
+                  <p class="timeline-text">在主域名创建了黑篙的个人导航站。</p>
+                </div>
+              </div>
+            </div>
+
           </article>
         </div>
         
@@ -342,13 +387,11 @@
     </div>
     <button class="lightbox-close" aria-label="关闭预览">&times;</button>
     <div class="lightbox-zoom">
-      <button class="zoom-btn" data-action="out" aria-label="缩小">&minus;</button>
-      <input type="range" class="zoom-slider" id="zoomSlider" min="100" max="500" value="100" step="10">
-      <button class="zoom-btn" data-action="in" aria-label="放大">&plus;</button>
+      <button class="zoom-btn" data-zoom="in" aria-label="放大">＋</button>
+      <button class="zoom-btn" data-zoom="out" aria-label="缩小">－</button>
     </div>
   </div>
 
-  <!-- 引入脚本 -->
-  <script src="hub.js?v=20.1" defer></script>
+  <script src="./hub.js"></script>
 </body>
 </html>
