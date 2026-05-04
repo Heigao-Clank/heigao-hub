@@ -814,6 +814,11 @@ html[data-theme="dark"] .topbar { background: rgba(37, 44, 58, 0.6); }
   gap: 0.6rem;
   color: var(--text-muted);
 }
+.github-activity-card svg {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
 .github-activity-text {
   font-family: var(--font-mono);
   font-size: 0.85rem;
@@ -847,6 +852,9 @@ html[data-theme="dark"] .topbar { background: rgba(37, 44, 58, 0.6); }
   color: rgba(93, 122, 158, 0.08);
   text-shadow: 1px 1px 0 rgba(93,122,158,0.1), 2px 2px 0 rgba(93,122,158,0.06), 10px 10px 20px rgba(93,122,158,0.1);
   white-space: nowrap;
+  will-change: transform;
+  transform: translateZ(0);
+  contain: paint layout;
 }
 .scroll-left  { animation: marquee-left  60s linear infinite; }
 .scroll-right { animation: marquee-right 50s linear infinite; }
@@ -1213,6 +1221,19 @@ html[data-theme="dark"] .topbar { background: rgba(37, 44, 58, 0.6); }
 }
 
 /* ---------- 无障碍与偏好设置适配 ---------- */
+
+/* ---------- 滚动进入动画 ---------- */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* 减弱动态效果 */
 @media (prefers-reduced-motion: reduce) {

@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 3. 基础功能: 动态年份、侧边栏控制、单页路由
   // ==========================================
+  let isGithubFetched = false;
   
   if (DOM.yearElement) {
     const START_YEAR = 2026;
@@ -132,6 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const contentArea = document.querySelector('.content-area');
       if (contentArea) contentArea.scrollTop = 0;
       window.scrollTo(0, 0);
+    }
+
+    if (targetId === 'section-about' && typeof fetchGithubActivity === 'function') {
+      fetchGithubActivity();
     }
   }
 
@@ -457,20 +462,24 @@ document.addEventListener('DOMContentLoaded', () => {
     window.updateParticleTheme(getTheme());
 
     let mouse = { x: -1000, y: -1000 };
+    let centerX = window.innerWidth / 2;
+    let centerY = window.innerHeight / 2;
 
     if (!prefersReducedMotion) {
       window.addEventListener('mousemove', (e) => {
-        const dx = e.clientX - window.innerWidth / 2;
-        const dy = e.clientY - window.innerHeight / 2;
-        const angle = 12 * Math.PI / 180; 
-        mouse.x = (dx * Math.cos(angle) - dy * Math.sin(angle)) + width / 2;
-        mouse.y = (dx * Math.sin(angle) + dy * Math.cos(angle)) + height / 2;
+        requestAnimationFrame(() => {
+          const dx = e.clientX - centerX;
+          const dy = e.clientY - centerY;
+          const angle = 12 * Math.PI / 180; 
+          mouse.x = (dx * Math.cos(angle) - dy * Math.sin(angle)) + width / 2;
+          mouse.y = (dx * Math.sin(angle) + dy * Math.cos(angle)) + height / 2;
+        });
       });
       
       window.addEventListener('touchmove', (e) => {
         if(e.touches.length > 0) {
-            const dx = e.touches[0].clientX - window.innerWidth / 2;
-            const dy = e.touches[0].clientY - window.innerHeight / 2;
+            const dx = e.touches[0].clientX - centerX;
+            const dy = e.touches[0].clientY - centerY;
             const angle = 12 * Math.PI / 180; 
             mouse.x = (dx * Math.cos(angle) - dy * Math.sin(angle)) + width / 2;
             mouse.y = (dx * Math.sin(angle) + dy * Math.cos(angle)) + height / 2;
@@ -634,15 +643,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let resizeTimer;
     window.addEventListener('resize', () => {
+      centerX = window.innerWidth / 2;
+      centerY = window.innerHeight / 2;
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(initParticleEngine, 300);
     });
   }
 
   // ==========================================
-  // 9. GitHub 活动看板 (About 页)
+  // 9. GitHub 活动看板 (About 页, 按需加载)
   // ==========================================
-  (function loadGithubActivity() {
+
+  function fetchGithubActivity() {
+    if (isGithubFetched) return;
+    isGithubFetched = true;
+
     const cardText = document.querySelector('.github-activity-text');
     if (!cardText) return;
 
@@ -671,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(() => {
         cardText.textContent = 'GitHub 信号休眠中';
       });
-  })();
+  }
 
   (function startLocalClock() {
     const clockEl = document.getElementById('heigao-clock');
@@ -752,6 +767,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     start();
     window.restartTypewriter = function () { start(); };
+  })();
+
+  (function scrollReveal() {
+    if (!('IntersectionObserver' in window)) return;
+    const items = document.querySelectorAll('.reveal-item');
+    if (!items.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    items.forEach(el => observer.observe(el));
   })();
 
 });

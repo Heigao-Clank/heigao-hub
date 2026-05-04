@@ -29,6 +29,8 @@
   <meta name="twitter:description" content="黑篙(Heigao)的个人数字门户。">
 
   <link rel="icon" href="./assets/image/icon.png" type="image/png">
+  <link rel="preload" href="./hub.css" as="style">
+  <link rel="preconnect" href="https://api.github.com" crossorigin>
 
   <link rel="stylesheet" href="./hub.css">
   <noscript><style>.content-section{display:block!important}</style></noscript>
@@ -49,9 +51,6 @@
 
   <!-- PWA 清单 -->
   <link rel="manifest" href="manifest.json">
-
-  <link rel="stylesheet" href="./hub.css">
-  <noscript><style>.content-section{display:block!important}</style></noscript>
 </head>
 <body>
 
@@ -162,7 +161,7 @@
       <section id="section-home" class="content-section active">
         <div class="profile-card">
           <div class="avatar-container">
-            <img src="./assets/image/avatar.webp" alt="Heigao Avatar" class="avatar-img" width="120" height="120">
+            <img src="./assets/image/avatar-240.webp" srcset="./assets/image/avatar-240.webp 1x, ./assets/image/avatar-480.webp 2x" alt="Heigao Avatar" class="avatar-img" width="120" height="120">
           </div>
           <div class="profile-info">
             <h1 class="profile-name" data-i18n="name">黑篙 Heigao</h1>
@@ -227,7 +226,7 @@
               <p class="skills-meta"><span data-i18n="about_status">当前状态</span>: <span id="dynamic-status">缓慢填坑中</span></p>
               <p class="skills-meta"><span data-i18n="local_time">本地时间</span>: <span id="heigao-clock">加载中...</span></p>
               <div class="github-activity-card">
-                <svg width="16" height="16" aria-hidden="true"><use href="#icon-github"/></svg>
+                <svg aria-hidden="true"><use href="#icon-github"/></svg>
                 <span class="github-activity-text">最近活动：加载中…</span>
               </div>
             </div>
@@ -257,7 +256,7 @@
               <span class="gallery-year-label">2025</span>
             </div>
             <div class="gallery-grid">
-              <div class="gallery-item" tabindex="0" role="button" aria-label="查看图片: AR → MR">
+              <div class="gallery-item reveal-item" tabindex="0" role="button" aria-label="查看图片: AR → MR">
                 <img src="./assets/art/ar-to-mr-2025-thumb.webp" 
                      data-full="./assets/art/ar-to-mr-2025.webp" 
                      alt="AR → MR" 
@@ -269,7 +268,7 @@
                 </div>
               </div>
 
-              <div class="gallery-item" tabindex="0" role="button" aria-label="查看图片: 铿锵Clank">
+              <div class="gallery-item reveal-item" tabindex="0" role="button" aria-label="查看图片: 铿锵Clank">
                 <img src="./assets/art/clank-2025-thumb.webp" 
                      data-full="./assets/art/clank-2025.webp" 
                      alt="铿锵Clank" 
@@ -290,7 +289,7 @@
               <span class="gallery-year-label">2024</span>
             </div>
             <div class="gallery-grid">
-              <div class="gallery-item" tabindex="0" role="button" aria-label="查看图片: 生日贺图">
+              <div class="gallery-item reveal-item" tabindex="0" role="button" aria-label="查看图片: 生日贺图">
                 <img src="./assets/art/heigao-birthday-2024-thumb.webp" 
                      data-full="./assets/art/heigao-birthday-2024.webp" 
                      alt="生日贺图" 
@@ -326,7 +325,7 @@
             <div class="timeline-item-wrapper">
               <div class="timeline-item">
                 <div class="timeline-marker"></div>
-                <div class="timeline-content">
+                <div class="timeline-content reveal-item">
                   <div class="timeline-date">2026.05.03</div>
                   <h3 class="timeline-heading">站点全面重构</h3>
                   <p class="timeline-text">视觉层迁移至 Canvas 粒子背景，移动端改用 CSS 滚动文字。修复粒子循环中断、毛玻璃延迟、层叠错乱等多项 Bug，关于页改为单卡片排版，画廊新增年份分区时间线。</p>
@@ -337,7 +336,7 @@
             <div class="timeline-item-wrapper">
               <div class="timeline-item">
                 <div class="timeline-marker"></div>
-                <div class="timeline-content">
+                <div class="timeline-content reveal-item">
                   <div class="timeline-date">2026.04.25</div>
                   <h3 class="timeline-heading">新增亮暗色模式切换</h3>
                   <p class="timeline-text">支持手动切换与跟随系统偏好。</p>
@@ -348,7 +347,7 @@
             <div class="timeline-item-wrapper">
               <div class="timeline-item">
                 <div class="timeline-marker"></div>
-                <div class="timeline-content">
+                <div class="timeline-content reveal-item">
                   <div class="timeline-date">2026.04.22</div>
                   <h3 class="timeline-heading">优化语言切换与作品展示</h3>
                   <p class="timeline-text">优化语言切换动画同步问题，新增部分作品展示。</p>
@@ -359,7 +358,7 @@
             <div class="timeline-item-wrapper">
               <div class="timeline-item">
                 <div class="timeline-marker"></div>
-                <div class="timeline-content">
+                <div class="timeline-content reveal-item">
                   <div class="timeline-date">2026.04.19</div>
                   <h3 class="timeline-heading">全站字体本地化</h3>
                   <p class="timeline-text">中日文采用鸿蒙字体 (HarmonyOS Sans SC)，西文字符采用 Jost，代码与标签等采用 Source Code Pro 渲染。</p>
@@ -370,7 +369,7 @@
             <div class="timeline-item-wrapper">
               <div class="timeline-item">
                 <div class="timeline-marker"></div>
-                <div class="timeline-content">
+                <div class="timeline-content reveal-item">
                   <div class="timeline-date">2026.04.18</div>
                   <h3 class="timeline-heading">Heigao.me 上线</h3>
                   <p class="timeline-text">在主域名创建了黑篙的个人导航站。</p>
