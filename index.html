@@ -86,6 +86,13 @@
       <polyline points="15 3 21 3 21 9"></polyline>
       <line x1="10" y1="14" x2="21" y2="3"></line>
     </symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24" fill="currentColor">
+      <polygon points="6 4 20 12 6 20"/>
+    </symbol>
+    <symbol id="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="5" y="4" width="5" height="16" rx="1"/>
+      <rect x="14" y="4" width="5" height="16" rx="1"/>
+    </symbol>
   </svg>
 
   <!-- 动态背景装饰：桌面端 Canvas 粒子 -->
@@ -105,7 +112,6 @@
         <div class="bg-deco-text">PORTFOLIO & WORKS PORTFOLIO & WORKS </div>
       </div>
       <div class="bg-deco-row scroll-left scroll-slow">
-        <div class="bg-deco-text">UTAU / CREATOR / ART UTAU / CREATOR / ART </div>
         <div class="bg-deco-text">UTAU / CREATOR / ART UTAU / CREATOR / ART </div>
       </div>
     </div>
@@ -184,6 +190,9 @@
                 <span data-i18n="link_utau">「熵尾音 咬青」 UTAU 展示页</span>
                 <svg width="16" height="16" aria-hidden="true"><use href="#icon-external"/></svg>
               </a>
+              <button class="play-btn" id="utauPlayBtn" aria-label="播放试听">
+                <svg width="18" height="18" aria-hidden="true"><use id="playIcon" href="#icon-play"/></svg>
+              </button>
             </div>
 
           </div>
@@ -207,17 +216,26 @@
             <div class="skills-box">
               <h3 data-i18n="card2_title">✦ 工具 & 工作流</h3>
               <div class="tags">
-                <span class="tag">UTAU / OpenUtau</span>
-                <span class="tag">CSP</span>
-                <span class="tag">Adobe 系列</span>
-                <span class="tag">Logic Pro</span>
-                <span class="tag">VS Code</span>
-                <span class="tag">OpenCode</span>
+                <span class="tag" data-i18n-tooltip="tooltip_utau" data-tooltip="经典与开源的歌声合成引擎">UTAU / OpenUtau</span>
+                <span class="tag" data-i18n-tooltip="tooltip_csp" data-tooltip="专业的数字插画与漫画绘制软件">CSP</span>
+                <span class="tag" data-i18n-tooltip="tooltip_adobe" data-tooltip="行业标准的图形处理与视频后期套件">Adobe 系列</span>
+                <span class="tag" data-i18n-tooltip="tooltip_logic" data-tooltip="专业的数字音频工作站 (DAW)">Logic Pro</span>
+                <span class="tag" data-i18n-tooltip="tooltip_vscode" data-tooltip="跨平台的轻量级开源代码编辑器">VS Code</span>
+                <span class="tag" data-i18n-tooltip="tooltip_opencode" data-tooltip="终端驱动的开源 AI 代码助手">OpenCode</span>
               </div>
               <p class="skills-meta"><span data-i18n="about_lang">沟通语言</span>: <span data-i18n="lang_list">中文 / English / 日本語(稍微)</span></p>
-              <p class="skills-meta"><span data-i18n="about_status">当前状态</span>: <span data-i18n="status_text">缓慢填坑中</span></p>
+              <p class="skills-meta"><span data-i18n="about_status">当前状态</span>: <span id="dynamic-status">缓慢填坑中</span></p>
+              <p class="skills-meta"><span data-i18n="local_time">本地时间</span>: <span id="heigao-clock">加载中...</span></p>
+              <div class="github-activity-card">
+                <svg width="16" height="16" aria-hidden="true"><use href="#icon-github"/></svg>
+                <span class="github-activity-text">最近活动：加载中…</span>
+              </div>
             </div>
           </article>
+        </div>
+
+        <div class="back-btn-wrapper">
+          <a href="#home" class="back-btn" data-i18n="back_home">← 返回主页</a>
         </div>
       </section>
 
@@ -286,6 +304,10 @@
             </div>
           </div>
 
+        </div>
+
+        <div class="back-btn-wrapper">
+          <a href="#home" class="back-btn" data-i18n="back_home">← 返回主页</a>
         </div>
       </section>
 
@@ -366,7 +388,7 @@
 
       <!-- 底部版权 -->
       <footer class="footer">
-        <p>&copy; <span id="current-year"></span> Heigao.<br>Handcrafted with 奶茶 & LLM.</p>
+        <p>&copy; <span id="current-year"></span> Heigao.<br>Powered by 奶茶 & LLM.</p>
       </footer>
 
     </main>
@@ -391,6 +413,9 @@
       <button class="zoom-btn" data-zoom="out" aria-label="缩小">－</button>
     </div>
   </div>
+
+  <!-- UTAU 试听音频 -->
+  <audio id="utau-demo" src="./assets/audio/demo.mp3" preload="none"></audio>
 
   <script src="./hub.js"></script>
 </body>

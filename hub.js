@@ -34,12 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
       "card2_title": "✦ 工具 & 工作流",
       "about_p1": "你好，我是黑篙 (Heigao)。",
       "about_p2": "目前专注于「熵尾音 咬青」的音源开发与完善，同时也在学习更多你所能想到的各种事物。",
-      "about_p3": "我相信，即便是在算法推荐的时代，能在网络上拥有一个独立于社交媒体、属于自己的空间，依然是一件浪漫的事。",
+      "about_p3": "我认为即便是在算法推荐的时代，能在网络上拥有一个独立于社交媒体、属于自己的空间，依然是一件很酷且浪漫、令人感到安心的事。",
       "about_lang": "沟通语言",
       "lang_list": "中文 / English / 日本語(稍微)",
       "about_status": "当前状态",
-      "status_text": "缓慢填坑中",
-      "back_home": "← 返回主页"
+      "local_time": "本地时间",
+      "back_home": "← 返回主页",
+      "tooltip_utau": "经典与开源的歌声合成引擎",
+      "tooltip_csp": "专业的数字插画与漫画绘制软件",
+      "tooltip_adobe": "行业标准的图形处理与视频后期套件",
+      "tooltip_logic": "专业的数字音频工作站 (DAW)",
+      "tooltip_vscode": "跨平台的轻量级开源代码编辑器",
+      "tooltip_opencode": "终端驱动的开源 AI 代码助手"
     },
     "en": {
       "name": "Heigao (黑篙)",
@@ -53,12 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
       "card2_title": "✦ Tools & Workflow",
       "about_p1": "Hi, I'm Heigao.",
       "about_p2": "Currently developing the UTAU voicebank 'Kousei' while learning as many things as you can imagine.",
-      "about_p3": "I believe that even in the age of algorithms, having a space on the web independent of social media and truly your own is still a romantic thing.",
+      "about_p3": "I think that even in the age of algorithms, having a space on the web independent of social media and truly your own is still something cool, romantic, and reassuring.",
       "about_lang": "Languages",
       "lang_list": "Chinese / English / Japanese (A little)",
       "about_status": "Status",
-      "status_text": "Slowly chipping away at WIPs",
-      "back_home": "← Back to Home"
+      "local_time": "Local Time",
+      "back_home": "← Back to Home",
+      "tooltip_utau": "Classic open-source vocal synthesis engine",
+      "tooltip_csp": "Professional digital illustration & comic software",
+      "tooltip_adobe": "Industry-standard graphic & video post-production suite",
+      "tooltip_logic": "Professional digital audio workstation (DAW)",
+      "tooltip_vscode": "Cross-platform lightweight open-source code editor",
+      "tooltip_opencode": "Terminal-driven open-source AI coding assistant"
     },
     "ja": {
       "name": "黒篙 Heigao",
@@ -72,12 +84,18 @@ document.addEventListener('DOMContentLoaded', () => {
       "card2_title": "✦ ツール & ワークフロー",
       "about_p1": "こんにちは、黒篙（Heigao）です。",
       "about_p2": "現在はUTAU音源「熵尾音 こうせい」の開発を中心に、思いつく限りのさまざまなことを学んでいます。",
-      "about_p3": "アルゴリズムの時代であっても、ソーシャルメディアから独立した、自分だけのウェブ上の空間を持つことは、今でもロマンチックなことだと信じています。",
+      "about_p3": "アルゴリズムの時代であっても、ソーシャルメディアから独立した、自分だけのウェブ上の空間を持つことは、今でもクールでロマンチックで、そして安心できることだと思います。",
       "about_lang": "対応言語",
       "lang_list": "中国語 / 英語 / 日本語(少し)",
       "about_status": "現在の状況",
-      "status_text": "ちまちま進捗中",
-      "back_home": "← ホームに戻る"
+      "local_time": "現地時間",
+      "back_home": "← ホームに戻る",
+      "tooltip_utau": "クラシックなオープンソース歌声合成エンジン",
+      "tooltip_csp": "プロ向けデジタルイラスト・漫画制作ソフト",
+      "tooltip_adobe": "業界標準のグラフィック・映像ポストプロダクションスイート",
+      "tooltip_logic": "プロ仕様のデジタルオーディオワークステーション (DAW)",
+      "tooltip_vscode": "クロスプラットフォームの軽量オープンソースコードエディタ",
+      "tooltip_opencode": "端末駆動のオープンソースAIコーディングアシスタント"
     }
   };
 
@@ -145,6 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    document.querySelectorAll('[data-i18n-tooltip]').forEach(el => {
+      const key = el.getAttribute('data-i18n-tooltip');
+      if (dict[key]) {
+        el.setAttribute('data-tooltip', dict[key]);
+      }
+    });
+
     document.title = dict['title'];
     document.documentElement.lang = lang === 'en' ? 'en' : (lang === 'ja' ? 'ja' : 'zh-CN');
 
@@ -153,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     try { localStorage.setItem('preferredLang', lang); } catch(e) {}
+    if (typeof window.restartTypewriter === 'function') window.restartTypewriter();
   }
 
   function initLanguage() {
@@ -362,7 +388,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   // ==========================================
-  // 7. 互动粒子背景引擎 (完美复刻原版镂空与阴影特征)
+  // 7. UTAU 试听播放器 + 音频可视化联动
+  // ==========================================
+  const utauAudio = document.getElementById('utau-demo');
+  const utauPlayBtn = document.getElementById('utauPlayBtn');
+  const playIconEl = document.getElementById('playIcon');
+
+  if (utauAudio && utauPlayBtn) {
+    utauPlayBtn.addEventListener('click', () => {
+      if (utauAudio.paused) {
+        utauAudio.play().then(() => {
+          utauPlayBtn.classList.add('playing');
+          playIconEl.setAttribute('href', '#icon-pause');
+        }).catch(err => console.warn('Audio play failed:', err));
+      } else {
+        utauAudio.pause();
+        utauPlayBtn.classList.remove('playing');
+        playIconEl.setAttribute('href', '#icon-play');
+      }
+    });
+
+    utauAudio.addEventListener('ended', () => {
+      utauPlayBtn.classList.remove('playing');
+      playIconEl.setAttribute('href', '#icon-play');
+    });
+  }
+
+  // ==========================================
+  // 8. 互动粒子背景引擎 (完美复刻原版镂空与阴影特征)
   // 【史诗级修复】：采用真实“无限跑步机”与“屏幕中心对齐”引擎，彻底解决重叠溶解及手机端错位问题。
   // ==========================================
   const bgCanvas = document.getElementById('bg-canvas');
@@ -450,6 +503,19 @@ document.addEventListener('DOMContentLoaded', () => {
           this.baseX -= this.speed;
         }
 
+        const leftBound = -this.wrapWidth;
+        const rightBound = width + this.wrapWidth;
+
+        if (this.speed > 0 && this.baseX < leftBound) {
+          const shift = Math.ceil((rightBound - this.baseX) / this.wrapWidth) * this.wrapWidth;
+          this.baseX += shift;
+          this.x += shift;
+        } else if (this.speed < 0 && this.baseX > rightBound) {
+          const shift = Math.ceil((this.baseX - leftBound) / this.wrapWidth) * this.wrapWidth;
+          this.baseX -= shift;
+          this.x -= shift;
+        }
+
         if (engineConfig.mouseRadius > 0 && mouse.x > -500) {
           let dx = mouse.x - this.x;
           let dy = mouse.y - this.y;
@@ -532,7 +598,15 @@ document.addEventListener('DOMContentLoaded', () => {
               rowIndex = 2;
             }
 
-            particleArray.push(new ParticleText(x, y, assignedSpeed, wrapWidth, rowIndex));
+            if (x < wrapWidth) {
+              const minK = -1; 
+              const maxK = Math.ceil(width / wrapWidth) + 1;
+              
+              for (let k = minK; k <= maxK; k++) {
+                let cloneX = x + k * wrapWidth;
+                particleArray.push(new ParticleText(cloneX, y, assignedSpeed, wrapWidth, rowIndex));
+              }
+            }
           }
         }
       }
@@ -540,30 +614,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animateParticleEngine() {
       ctx.clearRect(0, 0, width, height);
-
-      for (let r = 0; r < engineConfig.rows.length; r++) {
-        const row = engineConfig.rows[r];
-        if (row.speed === 0) continue;
-        const prev = row.rowScroll;
-        row.rowScroll -= row.speed;
-        if (prev > -row.wrapWidth && row.rowScroll <= -row.wrapWidth) {
-          row.rowScroll += row.wrapWidth;
-          for (let i = 0; i < particleArray.length; i++) {
-            if (particleArray[i].rowIndex === r) {
-              particleArray[i].baseX += row.wrapWidth;
-              particleArray[i].x += row.wrapWidth;
-            }
-          }
-        } else if (prev < row.wrapWidth && row.rowScroll >= row.wrapWidth) {
-          row.rowScroll -= row.wrapWidth;
-          for (let i = 0; i < particleArray.length; i++) {
-            if (particleArray[i].rowIndex === r) {
-              particleArray[i].baseX -= row.wrapWidth;
-              particleArray[i].x -= row.wrapWidth;
-            }
-          }
-        }
-      }
 
       for (let i = 0; i < particleArray.length; i++) {
         particleArray[i].draw();
@@ -588,4 +638,120 @@ document.addEventListener('DOMContentLoaded', () => {
       resizeTimer = setTimeout(initParticleEngine, 300);
     });
   }
+
+  // ==========================================
+  // 9. GitHub 活动看板 (About 页)
+  // ==========================================
+  (function loadGithubActivity() {
+    const cardText = document.querySelector('.github-activity-text');
+    if (!cardText) return;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    fetch('https://api.github.com/users/Heigao-Clank/events/public', { signal: controller.signal })
+      .then(res => {
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(events => {
+        const push = events.find(e => e.type === 'PushEvent');
+        if (!push) {
+          cardText.textContent = '最近活动：暂无推送记录';
+          return;
+        }
+        const date = new Date(push.created_at);
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        const repo = push.repo.name;
+        cardText.textContent = '最近活动：' + y + '.' + m + '.' + d + ' 推送至 ' + repo;
+      })
+      .catch(() => {
+        cardText.textContent = 'GitHub 信号休眠中';
+      });
+  })();
+
+  (function startLocalClock() {
+    const clockEl = document.getElementById('heigao-clock');
+    if (!clockEl) return;
+    function tick() {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Shanghai',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      clockEl.textContent = formatter.format(now).replace(/\//g, ':') + ' (UTC+8)';
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  (function initTypewriter() {
+    const el = document.getElementById('dynamic-status');
+    if (!el) return;
+
+    const phrases = {
+      'zh-CN': ["缓慢填坑中...", "正在构思新作品...", "有了新灵感，正在脑暴", "沉迷于梦境中"],
+      'en': ["Slowly chipping away at WIPs...", "Brainstorming new ideas...", "Drinking bubble tea", "Lost in code"],
+      'ja': ["ちまちま進捗中...", "新作を構想中...", "タピオカミルクティーを飲んだ", "コードに夢中"]
+    };
+
+    let timer = null;
+    let running = false;
+    let phraseIndex = 0;
+
+    function stop() {
+      running = false;
+      clearTimeout(timer);
+    }
+
+    function type(text, i, resolve) {
+      if (!running) return;
+      el.textContent = text.slice(0, i + 1);
+      if (i < text.length - 1) {
+        timer = setTimeout(() => type(text, i + 1, resolve), 80 + Math.random() * 40);
+      } else {
+        resolve();
+      }
+    }
+
+    function erase(text, i, resolve) {
+      if (!running) return;
+      el.textContent = text.slice(0, i);
+      if (i > 0) {
+        timer = setTimeout(() => erase(text, i - 1, resolve), 40 + Math.random() * 20);
+      } else {
+        resolve();
+      }
+    }
+
+    function cycle() {
+      if (!running) return;
+      const lang = document.documentElement.lang || 'zh-CN';
+      const list = phrases[lang] || phrases['zh-CN'];
+      const text = list[phraseIndex % list.length];
+      phraseIndex++;
+
+      new Promise(resolve => type(text, 0, resolve))
+        .then(() => new Promise(resolve => { timer = setTimeout(resolve, 60000); }))
+        .then(() => new Promise(resolve => erase(text, text.length - 1, resolve)))
+        .then(cycle);
+    }
+
+    function start() {
+      stop();
+      running = true;
+      phraseIndex = 0;
+      cycle();
+    }
+
+    start();
+    window.restartTypewriter = function () { start(); };
+  })();
+
 });
