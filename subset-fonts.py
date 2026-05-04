@@ -77,7 +77,7 @@ def main():
             css.append(
                 f"@font-face {{\n"
                 f"  font-family: 'HarmonyOS Sans';\n"
-                f"  src: url('./assets/font/HarmonyOS_SC_{w}.woff2') format('woff2');\n"
+                f"  src: url('./HarmonyOS_SC_{w}.woff2') format('woff2');\n"
                 f"  font-weight: {w};\n"
                 f"  font-style: normal;\n"
                 f"  font-display: swap;\n"
