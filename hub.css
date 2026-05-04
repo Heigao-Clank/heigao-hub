@@ -451,9 +451,12 @@ html[data-theme="dark"] .topbar { background: rgba(37, 44, 58, 0.6); }
 
 .avatar-container {
   flex-shrink: 0;
+  position: relative;
 }
 
 .avatar-img {
+  position: relative;
+  z-index: 1;
   width: 160px;
   height: 160px;
   border-radius: 24px;
@@ -470,6 +473,10 @@ html[data-theme="dark"] .topbar { background: rgba(37, 44, 58, 0.6); }
 
 .avatar-img:hover {
   transform: scale(1.05) rotate(-2deg);
+}
+
+.avatar-img:active {
+  transform: scale(0.92);
 }
 
 .profile-info {
@@ -1245,4 +1252,17 @@ html[data-theme="dark"] .topbar { background: rgba(37, 44, 58, 0.6); }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------- 头像点击喷射 🐺 Emoji ---------- */
+.emoji-particle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  user-select: none;
+  will-change: transform;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  opacity: 1;
 }

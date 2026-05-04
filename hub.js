@@ -786,4 +786,124 @@ document.addEventListener('DOMContentLoaded', () => {
     items.forEach(el => observer.observe(el));
   })();
 
+  // ==========================================
+  // 10. 头像点击礼炮喷射 Emoji (物理引擎 rAF)
+  // ==========================================
+  function initAvatarClickEffect() {
+    var avatar = document.querySelector('.avatar-img');
+    if (!avatar) return;
+
+    var particles = [];
+    var rafId = null;
+    var MAX = 25;
+    var emojis = ['\uD83D\uDC3A', '\uD83C\uDF03', '\uD83C\uDF39', '\uD83D\uDD37', '\uD83D\uDD39', '\u2764\uFE0F', '\uD83D\uDCA6', '\uD83C\uDF49'];
+
+    function loop() {
+      for (var i = particles.length - 1; i >= 0; i--) {
+        var p = particles[i];
+
+        p.vy += p.gravity;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rotation += p.vr;
+
+        if (p.x < p.minX) { p.x = p.minX; p.vx = -p.vx * 0.5; }
+        if (p.x > p.maxX) { p.x = p.maxX; p.vx = -p.vx * 0.5; }
+
+        p.scaleV += (1 - p.scale) * 0.22;
+        p.scaleV *= 0.72;
+        p.scale += p.scaleV;
+
+        p.opacity -= p.fade;
+
+        if (p.opacity <= 0 || p.y > window.innerHeight + 80) {
+          p.el.remove();
+          particles.splice(i, 1);
+          continue;
+        }
+
+        var s = Math.max(0.15, p.scale);
+        p.el.style.transform =
+          'translate(' + (p.x | 0) + 'px,' + (p.y | 0) + 'px) translate(-50%,-50%) rotate(' + (p.rotation | 0) + 'deg) scale(' + s.toFixed(2) + ')';
+        p.el.style.opacity = p.opacity;
+      }
+
+      if (particles.length) {
+        rafId = requestAnimationFrame(loop);
+      } else {
+        rafId = null;
+      }
+    }
+
+    avatar.addEventListener('click', function () {
+      if (particles.length >= MAX) return;
+
+      var isMobile = window.innerWidth < 768;
+      var vpScale = window.innerHeight / 900;
+      var count = isMobile
+        ? (Math.random() * 4 | 0) + 5
+        : (Math.random() * 3 | 0) + 3;
+      var allow = MAX - particles.length;
+      if (count > allow) count = allow;
+
+      var W = window.innerWidth;
+      var H = window.innerHeight;
+      var sidebar = document.querySelector('.sidebar');
+      var minLeft = sidebar ? sidebar.getBoundingClientRect().right : 0;
+      var speedMul = isMobile ? 0.5 : 1;
+
+      for (var i = 0; i < count; i++) {
+        var startX, startY, particleVx, particleMinX;
+        if (isMobile) {
+          startX = Math.random() * W;
+          startY = H + 20;
+          particleVx = (Math.random() - 0.5) * 12 * vpScale * speedMul;
+          particleMinX = 0;
+        } else {
+          var isLeft = Math.random() > 0.5;
+          startX = isLeft
+            ? minLeft + Math.random() * W * 0.2
+            : W * (Math.random() * 0.15 + 0.9);
+          startY = H + 20;
+          particleVx = isLeft
+            ? (Math.random() * 8 + 6) * vpScale * speedMul
+            : -(Math.random() * 8 + 6) * vpScale * speedMul;
+          particleMinX = isLeft ? minLeft : 0;
+        }
+
+        var el = document.createElement('span');
+        el.className = 'emoji-particle';
+        el.textContent = emojis[(Math.random() * emojis.length) | 0];
+        el.style.position = 'fixed';
+        el.style.left = '0px';
+        el.style.top = '0px';
+        el.style.fontSize = (Math.random() * 1.5 + 1.5) + 'rem';
+
+        particles.push({
+          el: el,
+          x: startX,
+          y: startY,
+          vx: particleVx,
+          vy: -(Math.random() * 15 + 25) * vpScale * speedMul,
+          gravity: (Math.random() * 0.3 + 0.55) * vpScale * speedMul,
+          vr: (Math.random() - 0.5) * 16 * speedMul,
+          scale: 0.2,
+          scaleV: 0,
+          opacity: 1,
+          fade: Math.random() * 0.002 + 0.003,
+          minX: particleMinX,
+          maxX: W
+        });
+
+        document.body.appendChild(el);
+      }
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(loop);
+      }
+    });
+  }
+
+  initAvatarClickEffect();
+
 });
